@@ -1,7 +1,3 @@
 export default function Home() {
-  return (
-    <main>
-      cozy.exchange
-    </main>
-  )
+  return <main>cozy.exchange</main>
 }
