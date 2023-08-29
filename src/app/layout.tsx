@@ -4,7 +4,12 @@ import { Exo_2 } from 'next/font/google'
 import Logo from '@/components/logo'
 import Link from 'next/link'
 import Button from '@/components/ui/button'
-import { BoltIcon, InformationCircleIcon, ListBulletIcon, UserGroupIcon } from '@heroicons/react/20/solid'
+import {
+  BoltIcon,
+  CheckCircleIcon,
+  InformationCircleIcon,
+  UserGroupIcon,
+} from '@heroicons/react/20/solid'
 
 const exo2 = Exo_2({ subsets: ['latin'] })
 
@@ -43,7 +48,7 @@ export default function RootLayout({
               href="/participants"
             />
             <Button
-              icon={<ListBulletIcon className="w-5 h-5" />}
+              icon={<CheckCircleIcon className="w-5 h-5" />}
               label="Rules"
               type="link"
               href="/rules"
