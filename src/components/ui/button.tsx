@@ -34,8 +34,8 @@ export default function Button({
   
   if (type === 'link') return (
     <Link
-      // onClick={onClick}
       className={classNames}
+      onClick={onClick}
       href={href}
     >
       <div className="text-slate-400">{icon}</div>
