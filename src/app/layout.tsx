@@ -7,7 +7,7 @@ import Button from '@/components/ui/button'
 import {
   BoltIcon,
   CheckCircleIcon,
-  InformationCircleIcon,
+  Cog6ToothIcon,
   UserGroupIcon,
 } from '@heroicons/react/20/solid'
 
@@ -36,7 +36,7 @@ export default function RootLayout({
         <div className="flex-1 flex overflow-y-auto gap-4">
           <div className="w-40 flex flex-col gap-4">
             <Button
-              icon={<InformationCircleIcon className="w-5 h-5" />}
+              icon={<Cog6ToothIcon className="w-5 h-5" />}
               label="Settings"
               type="link"
               href="/settings"
