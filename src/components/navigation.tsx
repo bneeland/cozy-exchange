@@ -1,10 +1,21 @@
 'use client'
 
-import Button from '@/components/ui/button';
-import { Bars3Icon, BoltIcon, CheckCircleIcon, Cog6ToothIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/20/solid';
-import { useState } from 'react';
+import Button from '@/components/ui/button'
+import {
+  Bars3Icon,
+  BoltIcon,
+  CheckCircleIcon,
+  Cog6ToothIcon,
+  UserGroupIcon,
+  XMarkIcon,
+} from '@heroicons/react/20/solid'
+import { useState } from 'react'
 
-export default function Navigation({ format = 'desktop' }: {format?: 'desktop' | 'mobile' }) {
+export default function Navigation({
+  format = 'desktop',
+}: {
+  format?: 'desktop' | 'mobile'
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   function toggle() {
@@ -47,7 +58,11 @@ export default function Navigation({ format = 'desktop' }: {format?: 'desktop' |
 
   return (
     <>
-      <div className={`${format === 'desktop' ? 'hidden sm:block' : 'hidden'} w-40`}>
+      <div
+        className={`${
+          format === 'desktop' ? 'hidden sm:block' : 'hidden'
+        } w-40 overflow-y-auto`}
+      >
         <Items />
       </div>
       <div className={`${format === 'mobile' ? 'block sm:hidden' : 'hidden'}`}>

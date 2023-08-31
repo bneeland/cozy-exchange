@@ -30,7 +30,9 @@ export default function RootLayout({
         className={`${exo2.className} h-screen w-screen flex flex-col gap-4 p-4 text-sm`}
       >
         <div className="flex gap-4">
-          <div className="flex-1 flex justify-start items-center"><Navigation format="mobile" /></div>
+          <div className="flex-1 flex justify-start items-center">
+            <Navigation format="mobile" />
+          </div>
           <div className="flex justify-center items-center">
             <Link href="/">
               <Logo />
