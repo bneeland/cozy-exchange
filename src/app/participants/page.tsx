@@ -1,9 +1,9 @@
-import Content from '@/components/content'
+import ContentBox from '@/components/contentBox'
 
 export default function Participants() {
   return (
-    <Content header="Participants">
+    <ContentBox header="Participants">
       <p>Participants</p>
-    </Content>
+    </ContentBox>
   )
 }

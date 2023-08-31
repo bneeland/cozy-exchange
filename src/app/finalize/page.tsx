@@ -1,9 +1,9 @@
-import Content from '@/components/content'
+import ContentBox from '@/components/contentBox'
 
 export default function Finalize() {
   return (
-    <Content header="Finalize">
+    <ContentBox header="Finalize">
       <p>Finalize</p>
-    </Content>
+    </ContentBox>
   )
 }
