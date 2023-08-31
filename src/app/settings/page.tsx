@@ -16,6 +16,7 @@ export default function Settings() {
           id="contactEmail"
           label="Contact email"
           placeholder="john.doe@example.com"
+          type="email"
         />
       </Fieldset>
     </ContentBox>
