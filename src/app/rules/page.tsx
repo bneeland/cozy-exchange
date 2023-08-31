@@ -1,9 +1,9 @@
-import Content from '@/components/content'
+import ContentBox from '@/components/contentBox'
 
 export default function Rules() {
   return (
-    <Content header="Rules">
+    <ContentBox header="Rules">
       <p>Rules</p>
-    </Content>
+    </ContentBox>
   )
 }

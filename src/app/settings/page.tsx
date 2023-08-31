@@ -1,9 +1,23 @@
-import Content from '@/components/content'
+import ContentBox from '@/components/contentBox'
+import Fieldset from '@/components/fieldset'
+import TextInput from '@/components/ui/textInput'
 
 export default function Settings() {
   return (
-    <Content header="Settings">
-      <p>Settings</p>
-    </Content>
+    <ContentBox header="Settings">
+      <Fieldset legend="Group contact">
+        <TextInput
+          id="contactName"
+          label="Contact name"
+          placeholder="John Doe"
+          autoFocus
+        />
+        <TextInput
+          id="contactEmail"
+          label="Contact email"
+          placeholder="john.doe@example.com"
+        />
+      </Fieldset>
+    </ContentBox>
   )
 }
