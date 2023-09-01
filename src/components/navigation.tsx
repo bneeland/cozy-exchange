@@ -33,7 +33,7 @@ export default function Navigation({
         type="link"
         href="/settings"
         onClick={toggle}
-        isActive={pathname === '/settings'}
+        isSelected={pathname === '/settings'}
       />
       <Button
         icon={<UserGroupIcon className="w-5 h-5" />}
@@ -41,7 +41,7 @@ export default function Navigation({
         type="link"
         href="/participants"
         onClick={toggle}
-        isActive={pathname === '/participants'}
+        isSelected={pathname === '/participants'}
       />
       <Button
         icon={<CheckCircleIcon className="w-5 h-5" />}
@@ -49,7 +49,7 @@ export default function Navigation({
         type="link"
         href="/rules"
         onClick={toggle}
-        isActive={pathname === '/rules'}
+        isSelected={pathname === '/rules'}
       />
       <Button
         icon={<BoltIcon className="w-5 h-5" />}
@@ -57,7 +57,7 @@ export default function Navigation({
         type="link"
         href="/finalize"
         onClick={toggle}
-        isActive={pathname === '/finalize'}
+        isSelected={pathname === '/finalize'}
       />
     </div>
   )
@@ -81,7 +81,7 @@ export default function Navigation({
           <>
             <div className="absolute inset-x-0 top-0 h-screen flex">
               <div className="flex flex-1 gap-4 overflow-y-auto backdrop-blur-sm">
-                <div className="flex flex-1 flex-col overflow-hidden rounded-r-2xl border-r-4 border-slate-300 mr-10">
+                <div className="flex flex-1 flex-col overflow-hidden rounded-r-2xl border-r-4 border-slate-300 mr-20">
                   <div className="flex-1 overflow-y-auto bg-white p-4 space-y-4">
                     <Button
                       icon={<XMarkIcon className="w-5 h-5" />}
