@@ -9,6 +9,7 @@ export default function Button({
   type = 'button',
   href = '/',
   full = false,
+  isSelected = false,
 }: {
   icon?: ReactNode
   label?: string
@@ -17,12 +18,14 @@ export default function Button({
   type?: 'button' | 'link'
   href?: string
   full?: boolean
+  isSelected?: boolean
 }) {
   const classNames = `
-    px-4 py-2 rounded-2xl border-b-4 active:border-b-0 active:border-t-4 border-slate-300 hover:border-slate-400 flex items-center gap-3
+    px-4 py-2 rounded-2xl active:border-b-0 active:border-t-4 border-slate-300 hover:border-slate-400 flex items-center gap-3 outline-none
     ${color === 'dark' ? 'bg-slate-200 hover:bg-slate-300' : ''}
     ${color === 'light' ? 'bg-white hover:bg-slate-300' : ''}
     ${(icon && !label) || (label && !icon) ? 'flex justify-center' : ''}
+    ${isSelected ? 'border-b-0 border-t-4 bg-slate-300 border-slate-400' : 'border-b-4'}
   `
 
   function ContentBox() {
