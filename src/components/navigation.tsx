@@ -74,7 +74,7 @@ export default function Navigation({
         {isOpen && (
           <>
             <div className="absolute inset-x-0 top-0 h-screen flex">
-              <div className="flex flex-1 gap-4 overflow-y-auto bg-slate-900/10 backdrop-blur-sm">
+              <div className="flex flex-1 gap-4 overflow-y-auto backdrop-blur-sm">
                 <div className="flex flex-1 flex-col overflow-hidden rounded-r-2xl border-r-4 border-slate-300 mr-10">
                   <div className="flex-1 overflow-y-auto bg-white p-4 space-y-4">
                     <Button
