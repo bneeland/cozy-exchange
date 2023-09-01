@@ -10,16 +10,18 @@ import {
   XMarkIcon,
 } from '@heroicons/react/20/solid'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Navigation({
   format = 'desktop',
 }: {
   format?: 'desktop' | 'mobile'
 }) {
+  const pathname = usePathname()
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   function toggle() {
-    console.log('toggle triggered')
     setIsOpen((currentValue) => !currentValue)
   }
 
@@ -31,6 +33,7 @@ export default function Navigation({
         type="link"
         href="/settings"
         onClick={toggle}
+        isActive={pathname === '/settings'}
       />
       <Button
         icon={<UserGroupIcon className="w-5 h-5" />}
@@ -38,6 +41,7 @@ export default function Navigation({
         type="link"
         href="/participants"
         onClick={toggle}
+        isActive={pathname === '/participants'}
       />
       <Button
         icon={<CheckCircleIcon className="w-5 h-5" />}
@@ -45,6 +49,7 @@ export default function Navigation({
         type="link"
         href="/rules"
         onClick={toggle}
+        isActive={pathname === '/rules'}
       />
       <Button
         icon={<BoltIcon className="w-5 h-5" />}
@@ -52,6 +57,7 @@ export default function Navigation({
         type="link"
         href="/finalize"
         onClick={toggle}
+        isActive={pathname === '/finalize'}
       />
     </div>
   )
