@@ -25,6 +25,10 @@ export default function Navigation({
     setIsOpen((currentValue) => !currentValue)
   }
 
+  function isSelected(href: string) {
+    return pathname === href
+  }
+
   const Items = () => (
     <div className="flex flex-col gap-4">
       <Button
@@ -33,15 +37,15 @@ export default function Navigation({
         type="link"
         href="/settings"
         onClick={toggle}
-        isSelected={pathname === '/settings'}
+        isSelected={isSelected('/settings')}
       />
       <Button
         icon={<UserGroupIcon className="w-5 h-5" />}
-        label="Participants"
+        label="People"
         type="link"
-        href="/participants"
+        href="/people"
         onClick={toggle}
-        isSelected={pathname === '/participants'}
+        isSelected={isSelected('/people')}
       />
       <Button
         icon={<CheckCircleIcon className="w-5 h-5" />}
@@ -49,7 +53,7 @@ export default function Navigation({
         type="link"
         href="/rules"
         onClick={toggle}
-        isSelected={pathname === '/rules'}
+        isSelected={isSelected('/rules')}
       />
       <Button
         icon={<BoltIcon className="w-5 h-5" />}
@@ -57,7 +61,7 @@ export default function Navigation({
         type="link"
         href="/finalize"
         onClick={toggle}
-        isSelected={pathname === '/finalize'}
+        isSelected={isSelected('/finalize')}
       />
     </div>
   )
