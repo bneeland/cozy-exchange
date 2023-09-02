@@ -25,7 +25,11 @@ export default function Button({
     ${color === 'dark' ? 'bg-slate-200 hover:bg-slate-300' : ''}
     ${color === 'light' ? 'bg-white hover:bg-slate-300' : ''}
     ${(icon && !label) || (label && !icon) ? 'flex justify-center' : ''}
-    ${isSelected ? 'border-b-0 border-t-4 bg-slate-300 border-slate-400' : 'border-b-4'}
+    ${
+      isSelected
+        ? 'border-b-0 border-t-4 bg-slate-300 border-slate-400'
+        : 'border-b-4'
+    }
   `
 
   function ContentBox() {

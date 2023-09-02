@@ -5,12 +5,19 @@ import TextInput from '@/components/ui/textInput'
 export default function Settings() {
   return (
     <ContentBox header="Settings">
+      <Fieldset legend="Exchange name">
+        <TextInput
+          id="exchangeName"
+          label="Exchange name"
+          placeholder="Christmas gift exchange"
+          autoFocus
+        />
+      </Fieldset>
       <Fieldset legend="Group contact">
         <TextInput
           id="contactName"
           label="Contact name"
           placeholder="John Doe"
-          autoFocus
         />
         <TextInput
           id="contactEmail"

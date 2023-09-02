@@ -1,6 +1,12 @@
 'use client'
 
-import { ChangeEvent, FocusEvent, KeyboardEvent, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  FocusEvent,
+  KeyboardEvent,
+  useEffect,
+  useState,
+} from 'react'
 
 export default function TextInput({
   id,
@@ -15,7 +21,9 @@ export default function TextInput({
   autoFocus?: boolean
   type?: 'text' | 'email'
 }) {
-  const [defaultValue, setDefaultValue] = useState<string | undefined>(undefined)
+  const [defaultValue, setDefaultValue] = useState<string | undefined>(
+    undefined,
+  )
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -24,7 +32,10 @@ export default function TextInput({
   }, [id])
 
   function save(e: FocusEvent | KeyboardEvent) {
-    const [id, value] = [(e.target as HTMLInputElement).id, (e.target as HTMLInputElement).value]
+    const [id, value] = [
+      (e.target as HTMLInputElement).id,
+      (e.target as HTMLInputElement).value,
+    ]
     localStorage.setItem(id, value)
   }
 
@@ -34,14 +45,12 @@ export default function TextInput({
 
   function handleEnter(e: KeyboardEvent) {
     if (e.key === 'Enter') {
-      save(e);
-      (e.target as HTMLInputElement).blur()
+      save(e)
+      ;(e.target as HTMLInputElement).blur()
     }
   }
 
-  if (isLoading) return <></>
-
-  else return (
+  return (
     <div className="space-y-1">
       <label htmlFor={id} className="block">
         {label}
@@ -49,14 +58,18 @@ export default function TextInput({
       <input
         id={id}
         type={type}
-        className="outline-none text-xl w-full"
-        placeholder={placeholder}
+        className={`
+          outline-none text-xl w-full rounded-lg
+          ${isLoading ? 'bg-slate-100 animate-pulse' : ''}
+        `}
+        placeholder={isLoading ? '' : placeholder}
         autoFocus={autoFocus && !defaultValue}
         autoComplete="off"
         onFocus={(e) => e.target.select()}
         onBlur={handleBlur}
         onKeyDown={handleEnter}
         defaultValue={defaultValue}
+        disabled={isLoading}
       />
     </div>
   )
