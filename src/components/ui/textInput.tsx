@@ -50,25 +50,27 @@ export default function TextInput({
     }
   }
 
-  if (isLoading) return <></>
-  else
-    return (
-      <div className="space-y-1">
-        <label htmlFor={id} className="block">
-          {label}
-        </label>
-        <input
-          id={id}
-          type={type}
-          className="outline-none text-xl w-full"
-          placeholder={placeholder}
-          autoFocus={autoFocus && !defaultValue}
-          autoComplete="off"
-          onFocus={(e) => e.target.select()}
-          onBlur={handleBlur}
-          onKeyDown={handleEnter}
-          defaultValue={defaultValue}
-        />
-      </div>
-    )
+  return (
+    <div className="space-y-1">
+      <label htmlFor={id} className="block">
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        className={`
+          outline-none text-xl w-full rounded-lg
+          ${isLoading ? 'bg-slate-100 animate-pulse' : ''}
+        `}
+        placeholder={isLoading ? '' : placeholder}
+        autoFocus={autoFocus && !defaultValue}
+        autoComplete="off"
+        onFocus={(e) => e.target.select()}
+        onBlur={handleBlur}
+        onKeyDown={handleEnter}
+        defaultValue={defaultValue}
+        disabled={isLoading}
+      />
+    </div>
+  )
 }
