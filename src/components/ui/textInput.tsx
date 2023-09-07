@@ -1,12 +1,7 @@
 'use client'
 
-import {
-  ChangeEvent,
-  FocusEvent,
-  KeyboardEvent,
-  useEffect,
-  useState,
-} from 'react'
+import { DataContext } from '@/contexts/data'
+import { ChangeEventHandler, useContext, KeyboardEvent } from 'react'
 
 export default function TextInput({
   id,
@@ -14,61 +9,51 @@ export default function TextInput({
   placeholder,
   autoFocus = false,
   type = 'text',
+  value,
+  onChange,
 }: {
   id: string
   label: string
   placeholder: string
   autoFocus?: boolean
   type?: 'text' | 'email'
+  value: string
+  onChange: ChangeEventHandler
 }) {
-  const [defaultValue, setDefaultValue] = useState<string | undefined>(
-    undefined,
-  )
-  const [isLoading, setIsLoading] = useState(true)
+  const { data } = useContext(DataContext)
 
-  useEffect(() => {
-    setDefaultValue(localStorage.getItem(id) || undefined)
-    setIsLoading(false)
-  }, [id])
-
-  function save(e: FocusEvent | KeyboardEvent) {
-    const [id, value] = [
-      (e.target as HTMLInputElement).id,
-      (e.target as HTMLInputElement).value,
-    ]
-    localStorage.setItem(id, value)
+  function save() {
+    localStorage.setItem('data', JSON.stringify(data))
   }
 
-  function handleBlur(e: FocusEvent) {
-    save(e)
+  function handleBlur() {
+    save()
   }
 
   function handleEnter(e: KeyboardEvent) {
     if (e.key === 'Enter') {
-      save(e)
+      save()
       ;(e.target as HTMLInputElement).blur()
     }
   }
 
-  if (isLoading) return <></>
-  else
-    return (
-      <div className="space-y-1">
-        <label htmlFor={id} className="block">
-          {label}
-        </label>
-        <input
-          id={id}
-          type={type}
-          className="outline-none text-xl w-full"
-          placeholder={placeholder}
-          autoFocus={autoFocus && !defaultValue}
-          autoComplete="off"
-          onFocus={(e) => e.target.select()}
-          onBlur={handleBlur}
-          onKeyDown={handleEnter}
-          defaultValue={defaultValue}
-        />
-      </div>
-    )
+  return (
+    <div className="space-y-1">
+      <label htmlFor={id} className="block">
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        className="outline-none text-xl w-full"
+        placeholder={placeholder}
+        autoFocus={autoFocus}
+        value={value}
+        onChange={onChange}
+        onBlur={handleBlur}
+        onKeyDown={handleEnter}
+        autoComplete="off"
+      />
+    </div>
+  )
 }

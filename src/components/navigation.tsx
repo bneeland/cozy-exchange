@@ -84,8 +84,8 @@ export default function Navigation({
         {isOpen && (
           <>
             <div className="absolute inset-x-0 top-0 h-screen flex">
-              <div className="flex flex-1 gap-4 overflow-y-auto backdrop-blur-sm">
-                <div className="flex flex-1 flex-col overflow-hidden rounded-r-2xl border-r-4 border-slate-300 mr-20">
+              <div className="flex flex-1 overflow-y-auto backdrop-blur-sm">
+                <div className="flex flex-1 overflow-hidden rounded-r-2xl border-r-4 border-slate-300 z-50">
                   <div className="flex-1 overflow-y-auto bg-white p-4 space-y-4">
                     <Button
                       icon={<XMarkIcon className="w-5 h-5" />}
@@ -96,6 +96,7 @@ export default function Navigation({
                     <Items />
                   </div>
                 </div>
+                <div className="w-40 -ml-20 cursor-pointer" onClick={toggle} />
               </div>
             </div>
           </>
