@@ -38,7 +38,7 @@ export default function RootLayout({
           <div className="flex-1 flex overflow-y-auto gap-4">
             <Navigation />
             <div className="flex-1 flex flex-col overflow-hidden rounded-2xl bg-slate-200 border border-t-4 border-slate-300">
-              <div className="overflow-y-auto px-4 py-12">{children}</div>
+              <div className="overflow-y-auto p-6">{children}</div>
             </div>
           </div>
           <div className="flex justify-center">cozy.exchange</div>

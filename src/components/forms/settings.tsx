@@ -4,7 +4,6 @@ import { DataContext } from '@/contexts/data'
 import { ChangeEvent, useContext, useEffect } from 'react'
 import Fieldset from '../fieldset'
 import TextInput from '../ui/textInput'
-import { Data } from '@/types'
 
 export default function SettingsForm() {
   const { data, setData } = useContext(DataContext)
@@ -15,7 +14,7 @@ export default function SettingsForm() {
     if (savedData) {
       setData(savedData)
     }
-  }, [])
+  }, [setData])
 
   return (
     <>
@@ -29,6 +28,7 @@ export default function SettingsForm() {
             setData({ ...data, exchange: { name: e.target.value } })
           }
           autoFocus
+          saveOnEnter
         />
       </Fieldset>
       <Fieldset legend="Group contact">
@@ -43,6 +43,7 @@ export default function SettingsForm() {
               contact: { ...data.contact, name: e.target.value },
             })
           }
+          saveOnEnter
         />
         <TextInput
           id="contactEmail"
@@ -56,6 +57,7 @@ export default function SettingsForm() {
               contact: { ...data.contact, email: e.target.value },
             })
           }
+          saveOnEnter
         />
       </Fieldset>
     </>

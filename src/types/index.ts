@@ -1,6 +1,6 @@
 export type SaveEvent = FocusEvent | KeyboardEvent
 
-export type Person = { id: string; name?: string; email?: string }
+export type Person = { id: string; name: string; email: string }
 
 export type Rule = { source: string; target: string }
 
