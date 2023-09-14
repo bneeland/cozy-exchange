@@ -84,7 +84,7 @@ export default function PeopleForm() {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <TextInput
                 id={`${person.id}_name`}
-                placeholder={person.name}
+                placeholder="Edit name…"
                 value={getPersonFromData(person.id)?.name || ''}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handlePersonChange({ e, person, field: 'name' })
@@ -93,7 +93,7 @@ export default function PeopleForm() {
               />
               <TextInput
                 id={`${person.id}_email`}
-                placeholder={person.email}
+                placeholder="Edit email…"
                 value={getPersonFromData(person.id)?.email || ''}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handlePersonChange({ e, person, field: 'email' })
