@@ -23,7 +23,7 @@ export default function Button({
   isSelected?: boolean
 }) {
   const classNames = `
-    active:border-b-0 active:border-t-4 border-slate-300 hover:border-slate-400 flex items-center gap-3 outline-none
+    active:border-b-0 active:border-t-4 border-slate-300 hover:border-slate-400 flex items-center gap-3 outline-none focus:bg-blue-200 focus:border-blue-300
     ${color === 'dark' ? 'bg-slate-200 hover:bg-slate-300' : ''}
     ${color === 'light' ? 'bg-white hover:bg-slate-300' : ''}
     ${(icon && !label) || (label && !icon) ? 'flex justify-center' : ''}
