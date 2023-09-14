@@ -10,16 +10,16 @@ export default function TextInput({
   label,
   placeholder,
   autoFocus = false,
-  saveOnEnter = false,
+  autoSave = false,
   type = 'text',
   value,
   onChange,
 }: {
   id: string
-  label: string
+  label?: string
   placeholder: string
   autoFocus?: boolean
-  saveOnEnter?: boolean
+  autoSave?: boolean
   type?: 'text' | 'email'
   value: string
   onChange: ChangeEventHandler
@@ -39,9 +39,11 @@ export default function TextInput({
 
   return (
     <div className="space-y-1">
-      <label htmlFor={id} className="block">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={id} className="block">
+          {label}
+        </label>
+      )}
       <input
         id={id}
         type={type}
@@ -50,8 +52,8 @@ export default function TextInput({
         autoFocus={autoFocus}
         value={value}
         onChange={onChange}
-        onBlur={handleBlur}
-        onKeyDown={saveOnEnter ? handleEnter : undefined}
+        onBlur={autoSave ? handleBlur : undefined}
+        onKeyDown={autoSave ? handleEnter : undefined}
         autoComplete="off"
       />
     </div>
