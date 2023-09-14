@@ -10,11 +10,11 @@ import { v4 as uuid } from 'uuid'
 import { save } from '@/helpers'
 import { TrashIcon } from '@heroicons/react/20/solid'
 
-const initialNewPerson: Person = {
+const initialNewPerson = () => ({
   id: uuid(),
   name: '',
   email: '',
-}
+})
 
 export default function PeopleForm() {
   const { data, setData } = useContext(DataContext)
