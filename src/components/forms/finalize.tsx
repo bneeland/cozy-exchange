@@ -4,6 +4,8 @@ import { DataContext } from '@/contexts/data'
 import { ChangeEvent, ReactNode, useContext, useEffect } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
+import Button from '../ui/button'
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 
 export default function FinalizeForm() {
   const { data, setData } = useContext(DataContext)
@@ -15,15 +17,6 @@ export default function FinalizeForm() {
       setData(savedData)
     }
   }, [setData])
-
-  // function LineItem({ children, label }: { children: ReactNode, label: string }) {
-  //   return (
-  //     <div className="border flex justify-between">
-  //       <div className="border flex-none text-slate-500">{label}</div>
-  //       <div className="border flex-1 flex justify-between">{children}</div>
-  //     </div>
-  //   )
-  // }
 
   return (
     <>
@@ -64,6 +57,9 @@ export default function FinalizeForm() {
         </tbody>
       </table>
       </Fieldset>
+      <h1>Generate matches and send emails</h1>
+      <p>If everything looks good, click the button below to generate matches and send emails to all participants.</p>
+      <Button label="Match and send now" icon={<PaperAirplaneIcon className="w-5 h-5" />} />
     </>
   )
 }

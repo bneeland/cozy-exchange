@@ -4,11 +4,11 @@ import Button from '@/components/ui/button'
 export default function Home() {
   return (
     <ContentBox header="Intro">
-      <p className="text-lg">Draw random names for a gift exchange.</p>
-      <p className="text-base">
+      <h1>Draw random names for a gift exchange.</h1>
+      <h2>
         Send secret emails so everyone knows who they&apos;re assigned to.
-      </p>
-      <p className="text-base">Saves data automatically to your browser.</p>
+      </h2>
+      <h2>Saves data automatically to your browser.</h2>
       <Button label="Start" type="link" href="/settings" full />
     </ContentBox>
   )

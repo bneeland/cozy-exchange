@@ -5,3 +5,11 @@
 hr {
   @apply h-1 border-0 bg-slate-100 rounded-full;
 }
+
+h1 {
+  @apply text-lg
+}
+
+h2 {
+  @apply text-base
+}
