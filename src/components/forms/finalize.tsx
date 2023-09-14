@@ -34,32 +34,46 @@ export default function FinalizeForm() {
         />
       </Fieldset>
       <Fieldset legend="Summary">
-      <table className="table-auto w-full">
-        <tbody>
-          <tr>
-            <td>Contact</td>
-            <td>{data.contact.name} &middot; {data.contact.email}</td>
-          </tr>
-          <tr>
-            <td>People</td>
-            <td>
-              {data.people.map((person) => (
-                <div key={person.id}>
-                  {person.name} &middot; {person.email}
-                </div>
-              ))}
-            </td>
-          </tr>
-          <tr>
-            <td>Message</td>
-            <td>{data.message ? data.message : <span className="text-slate-500">None</span>}</td>
-          </tr>
-        </tbody>
-      </table>
+        <table className="table-auto w-full">
+          <tbody>
+            <tr>
+              <td>Contact</td>
+              <td>
+                {data.contact.name} &middot; {data.contact.email}
+              </td>
+            </tr>
+            <tr>
+              <td>People</td>
+              <td>
+                {data.people.map((person) => (
+                  <div key={person.id}>
+                    {person.name} &middot; {person.email}
+                  </div>
+                ))}
+              </td>
+            </tr>
+            <tr>
+              <td>Message</td>
+              <td>
+                {data.message ? (
+                  data.message
+                ) : (
+                  <span className="text-slate-500">None</span>
+                )}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </Fieldset>
       <h1>Generate matches and send emails</h1>
-      <p>If everything looks good, click the button below to generate matches and send emails to all participants.</p>
-      <Button label="Match and send now" icon={<PaperAirplaneIcon className="w-5 h-5" />} />
+      <p>
+        If everything looks good, click the button below to generate matches and
+        send emails to all participants.
+      </p>
+      <Button
+        label="Match and send now"
+        icon={<PaperAirplaneIcon className="w-5 h-5" />}
+      />
     </>
   )
 }
