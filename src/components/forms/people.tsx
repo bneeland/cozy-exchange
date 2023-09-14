@@ -35,6 +35,7 @@ export default function PeopleForm() {
     setData(newData)
     save(newData)
     setNewPerson(initialNewPerson)
+    ;(document.querySelector('#newPersonName') as HTMLElement)?.focus()
   }
 
   function handleDeletePerson(person: Person) {
