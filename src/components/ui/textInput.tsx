@@ -47,7 +47,7 @@ export default function TextInput({
       <input
         id={id}
         type={type}
-        className="outline-none text-xl w-full"
+        className="outline-none text-xl w-full bg-transparent"
         placeholder={placeholder}
         autoFocus={autoFocus}
         value={value}

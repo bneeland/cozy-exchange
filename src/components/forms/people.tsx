@@ -74,35 +74,42 @@ export default function PeopleForm() {
   }
 
   return (
-    <>
-      {data.people.map((person: Person) => (
-        <div key={person.id} className="flex justify-between items-center">
-          <TextInput
-            id={`${person.id}_name`}
-            placeholder={person.name}
-            value={getPersonFromData(person.id)?.name || ''}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handlePersonChange({ e, person, field: 'name' })
-            }
-            autoSave
-          />
-          <TextInput
-            id={`${person.id}_email`}
-            placeholder={person.email}
-            value={getPersonFromData(person.id)?.email || ''}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handlePersonChange({ e, person, field: 'email' })
-            }
-            autoSave
-          />
-          <Button
-            icon={<TrashIcon className="w-4 h-4" />}
-            size="sm"
-            onClick={() => handleDeletePerson(person)}
-          />
-        </div>
-      ))}
-      <div className="sticky bottom-0 pt-6 border-t bg-white/80 backdrop-blur -mx-6 px-6">
+    <div className="space-y-6">
+      <div className="divide-y md:divide-y-0 -my-4 md:-my-2">
+        {data.people.map((person: Person) => (
+          <div
+            key={person.id}
+            className="flex justify-between items-center py-4 md:py-2"
+          >
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <TextInput
+                id={`${person.id}_name`}
+                placeholder={person.name}
+                value={getPersonFromData(person.id)?.name || ''}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handlePersonChange({ e, person, field: 'name' })
+                }
+                autoSave
+              />
+              <TextInput
+                id={`${person.id}_email`}
+                placeholder={person.email}
+                value={getPersonFromData(person.id)?.email || ''}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handlePersonChange({ e, person, field: 'email' })
+                }
+                autoSave
+              />
+            </div>
+            <Button
+              icon={<TrashIcon className="w-4 h-4" />}
+              size="sm"
+              onClick={() => handleDeletePerson(person)}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="sticky -bottom-6 pt-6 border-t bg-white/80 backdrop-blur -mx-6 px-6">
         <form onSubmit={handleSaveNewPerson}>
           <Fieldset legend="Add a person">
             <TextInput
@@ -124,10 +131,10 @@ export default function PeopleForm() {
                 setNewPerson({ ...newPerson, email: e.target.value })
               }
             />
-            <Button type="submit" label="Save" />
+            <Button type="submit" label="Save" full />
           </Fieldset>
         </form>
       </div>
-    </>
+    </div>
   )
 }
