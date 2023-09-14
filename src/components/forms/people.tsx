@@ -121,15 +121,18 @@ export default function PeopleForm() {
                 setNewPerson({ ...newPerson, name: e.target.value })
               }
               autoFocus
+              required
             />
             <TextInput
               id="newPersonEmail"
               label="Email"
+              type="email"
               placeholder="john.doe@example.com"
               value={newPerson.email}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setNewPerson({ ...newPerson, email: e.target.value })
               }
+              required
             />
             <Button type="submit" label="Save" full />
           </Fieldset>
