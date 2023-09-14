@@ -35,6 +35,7 @@ export default function PeopleForm() {
     setData(newData)
     save(newData)
     setNewPerson(initialNewPerson)
+    ;(document.querySelector('#newPersonName') as HTMLElement)?.focus()
   }
 
   function handleDeletePerson(person: Person) {
@@ -77,11 +78,8 @@ export default function PeopleForm() {
     <div className="space-y-6">
       <div className="divide-y md:divide-y-0 -my-4 md:-my-2">
         {data.people.map((person: Person) => (
-          <div
-            key={person.id}
-            className="flex justify-between items-center py-4 md:py-2"
-          >
-            <div className="flex flex-col md:flex-row justify-between items-center">
+          <div key={person.id} className="flex items-start gap-2 py-4 md:py-2">
+            <div className="flex flex-col md:flex-row md:items-center gap-2 w-full">
               <TextInput
                 id={`${person.id}_name`}
                 placeholder="Edit name…"
