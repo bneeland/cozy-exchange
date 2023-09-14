@@ -41,6 +41,10 @@ export default function FinalizeForm() {
         <table className="table-auto w-full">
           <tbody>
             <tr>
+              <td>Name</td>
+              <td>{data.exchange.name || <None />}</td>
+            </tr>
+            <tr>
               <td>Contact</td>
               <td>
                 {(data.contact.name && data.contact.email && (
@@ -59,7 +63,6 @@ export default function FinalizeForm() {
                       {person.name} &middot; {person.email}
                     </div>
                   ))) || <None />}
-                {/* {data.people.length > 0 ? 'yes' : 'no'} */}
               </td>
             </tr>
             <tr>
@@ -70,10 +73,10 @@ export default function FinalizeForm() {
         </table>
       </Fieldset>
       <hr />
-      <h1>Generate matches and send emails</h1>
+      <h1>Wrap it up!</h1>
       <p>
-        If everything looks good, click the button below to generate matches and
-        send emails to all participants.
+        If everything looks good, click the button below to generate random
+        matches and send emails to all participants.
       </p>
       <Button
         label="Match and send now"
