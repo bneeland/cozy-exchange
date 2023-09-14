@@ -18,6 +18,10 @@ export default function FinalizeForm() {
     }
   }, [setData])
 
+  function None() {
+    return <span className="text-slate-500">None</span>
+  }
+
   return (
     <>
       <Fieldset legend="Info">
@@ -39,32 +43,33 @@ export default function FinalizeForm() {
             <tr>
               <td>Contact</td>
               <td>
-                {data.contact.name} &middot; {data.contact.email}
+                {(data.contact.name && data.contact.email && (
+                  <>
+                    {data.contact.name} &middot; {data.contact.email}
+                  </>
+                )) || <None />}
               </td>
             </tr>
             <tr>
               <td>People</td>
               <td>
-                {data.people.map((person) => (
-                  <div key={person.id}>
-                    {person.name} &middot; {person.email}
-                  </div>
-                ))}
+                {(data.people.length > 0 &&
+                  data.people.map((person) => (
+                    <div key={person.id}>
+                      {person.name} &middot; {person.email}
+                    </div>
+                  ))) || <None />}
+                {/* {data.people.length > 0 ? 'yes' : 'no'} */}
               </td>
             </tr>
             <tr>
               <td>Message</td>
-              <td>
-                {data.message ? (
-                  data.message
-                ) : (
-                  <span className="text-slate-500">None</span>
-                )}
-              </td>
+              <td>{data.message || <None />}</td>
             </tr>
           </tbody>
         </table>
       </Fieldset>
+      <hr />
       <h1>Generate matches and send emails</h1>
       <p>
         If everything looks good, click the button below to generate matches and
