@@ -28,7 +28,7 @@ export default function SettingsForm() {
             setData({ ...data, exchange: { name: e.target.value } })
           }
           autoFocus
-          saveOnEnter
+          autoSave
         />
       </Fieldset>
       <Fieldset legend="Group contact">
@@ -43,7 +43,7 @@ export default function SettingsForm() {
               contact: { ...data.contact, name: e.target.value },
             })
           }
-          saveOnEnter
+          autoSave
         />
         <TextInput
           id="contactEmail"
@@ -57,7 +57,7 @@ export default function SettingsForm() {
               contact: { ...data.contact, email: e.target.value },
             })
           }
-          saveOnEnter
+          autoSave
         />
       </Fieldset>
     </>

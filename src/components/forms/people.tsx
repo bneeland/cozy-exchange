@@ -48,12 +48,53 @@ export default function PeopleForm() {
     }
   }
 
+  function getPersonFromData(id: string) {
+    return data.people.find((person) => person.id === id)
+  }
+
+  function handlePersonChange({
+    e,
+    person,
+    field,
+  }: {
+    e: ChangeEvent<HTMLInputElement>
+    person: Person
+    field: string
+  }) {
+    setData({
+      ...data,
+      people: [
+        ...data.people.map((_person) =>
+          _person.id === person.id
+            ? { ..._person, [field]: e.target.value }
+            : _person,
+        ),
+      ],
+    })
+  }
+
   return (
     <>
       {data.people.map((person: Person) => (
         <div key={person.id} className="flex justify-between items-center">
-          <div>{person.name}</div>
-          <div>{person.email}</div>
+          <TextInput
+            id={`${person.id}_name`}
+            placeholder={person.name}
+            value={getPersonFromData(person.id)?.name || ''}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handlePersonChange({ e, person, field: 'name' })
+            }
+            autoSave
+          />
+          <TextInput
+            id={`${person.id}_email`}
+            placeholder={person.email}
+            value={getPersonFromData(person.id)?.email || ''}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handlePersonChange({ e, person, field: 'email' })
+            }
+            autoSave
+          />
           <Button
             icon={<TrashIcon className="w-4 h-4" />}
             size="sm"
