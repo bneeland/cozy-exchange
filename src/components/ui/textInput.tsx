@@ -11,6 +11,7 @@ export default function TextInput({
   placeholder,
   autoFocus = false,
   autoSave = false,
+  required = true,
   type = 'text',
   value,
   onChange,
@@ -20,6 +21,7 @@ export default function TextInput({
   placeholder: string
   autoFocus?: boolean
   autoSave?: boolean
+  required?: boolean
   type?: 'text' | 'email'
   value: string
   onChange: ChangeEventHandler
@@ -47,9 +49,10 @@ export default function TextInput({
       <input
         id={id}
         type={type}
-        className="outline-none text-xl w-full"
+        className="outline-none text-xl w-full bg-transparent"
         placeholder={placeholder}
         autoFocus={autoFocus}
+        required={required}
         value={value}
         onChange={onChange}
         onBlur={autoSave ? handleBlur : undefined}
