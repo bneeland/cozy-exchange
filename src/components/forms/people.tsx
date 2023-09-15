@@ -9,6 +9,7 @@ import { Data, Person } from '@/types'
 import { v4 as uuid } from 'uuid'
 import { save } from '@/helpers'
 import { TrashIcon } from '@heroicons/react/20/solid'
+import StickyBox from '../stickyBox'
 
 const initialNewPerson = () => ({
   id: uuid(),
@@ -107,7 +108,7 @@ export default function PeopleForm() {
           </div>
         ))}
       </div>
-      <div className="sticky -bottom-6 pt-6 border-t bg-white/80 backdrop-blur -mx-6 px-6">
+      <StickyBox>
         <form onSubmit={handleSaveNewPerson}>
           <Fieldset legend="Add a person">
             <TextInput
@@ -135,7 +136,7 @@ export default function PeopleForm() {
             <Button type="submit" label="Save" full />
           </Fieldset>
         </form>
-      </div>
+      </StickyBox>
     </div>
   )
 }

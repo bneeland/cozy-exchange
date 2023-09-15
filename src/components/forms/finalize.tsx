@@ -6,6 +6,7 @@ import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
+import { getVectors } from '@/helpers/assign'
 
 export default function FinalizeForm() {
   const { data, setData } = useContext(DataContext)
@@ -20,6 +21,12 @@ export default function FinalizeForm() {
 
   function None() {
     return <span className="text-slate-500">None</span>
+  }
+
+  function handleFinalize() {
+    const vectors = getVectors({ people: data.people, rules: data.rules })
+    console.log('vectors')
+    console.log(vectors)
   }
 
   return (
@@ -38,23 +45,23 @@ export default function FinalizeForm() {
         />
       </Fieldset>
       <Fieldset legend="Summary">
-        <table className="table-auto w-full">
-          <tbody>
-            <tr>
+        <table className="table-auto w-full whitespace-nowrap">
+          <tbody className="divide-y">
+            <tr className="align-baseline">
               <td>Name</td>
               <td>{data.exchange.name || <None />}</td>
             </tr>
-            <tr>
+            <tr className="align-baseline">
               <td>Contact</td>
               <td>
                 {(data.contact.name && data.contact.email && (
-                  <>
+                  <div className="flex flex-col sm:flex-row">
                     {data.contact.name} &middot; {data.contact.email}
-                  </>
+                  </div>
                 )) || <None />}
               </td>
             </tr>
-            <tr>
+            <tr className="align-baseline">
               <td>People</td>
               <td>
                 {(data.people.length > 0 &&
@@ -65,7 +72,7 @@ export default function FinalizeForm() {
                   ))) || <None />}
               </td>
             </tr>
-            <tr>
+            <tr className="align-baseline">
               <td>Message</td>
               <td>{data.message || <None />}</td>
             </tr>
@@ -81,6 +88,7 @@ export default function FinalizeForm() {
       <Button
         label="Match and send now"
         icon={<PaperAirplaneIcon className="w-5 h-5" />}
+        onClick={handleFinalize}
       />
     </>
   )
