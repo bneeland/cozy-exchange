@@ -45,23 +45,24 @@ export default function FinalizeForm() {
         />
       </Fieldset>
       <Fieldset legend="Summary">
-        <table className="table-auto w-full">
-          <tbody>
-            <tr>
+        <div className="overflow-x-auto max-w-full">
+        <table className="table-auto w-full whitespace-nowrap">
+          <tbody className="divide-y">
+            <tr className="align-baseline">
               <td>Name</td>
               <td>{data.exchange.name || <None />}</td>
             </tr>
-            <tr>
+            <tr className="align-baseline">
               <td>Contact</td>
               <td>
                 {(data.contact.name && data.contact.email && (
-                  <>
+                  <div className="flex flex-col sm:flex-row">
                     {data.contact.name} &middot; {data.contact.email}
-                  </>
+                  </div>
                 )) || <None />}
               </td>
             </tr>
-            <tr>
+            <tr className="align-baseline">
               <td>People</td>
               <td>
                 {(data.people.length > 0 &&
@@ -72,12 +73,13 @@ export default function FinalizeForm() {
                   ))) || <None />}
               </td>
             </tr>
-            <tr>
+            <tr className="align-baseline">
               <td>Message</td>
               <td>{data.message || <None />}</td>
             </tr>
           </tbody>
         </table>
+        </div>
       </Fieldset>
       <hr />
       <h1>Wrap it up!</h1>
