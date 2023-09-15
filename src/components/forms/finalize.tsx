@@ -45,7 +45,6 @@ export default function FinalizeForm() {
         />
       </Fieldset>
       <Fieldset legend="Summary">
-        <div className="overflow-x-auto max-w-full">
         <table className="table-auto w-full whitespace-nowrap">
           <tbody className="divide-y">
             <tr className="align-baseline">
@@ -79,7 +78,6 @@ export default function FinalizeForm() {
             </tr>
           </tbody>
         </table>
-        </div>
       </Fieldset>
       <hr />
       <h1>Wrap it up!</h1>
