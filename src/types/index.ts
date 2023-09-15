@@ -2,7 +2,12 @@ export type SaveEvent = FocusEvent | KeyboardEvent
 
 export type Person = { id: string; name: string; email: string }
 
-export type Rule = { source: string; target: string }
+export type Vector = { from: Person; to: Person }
+
+export type Rules = {
+  inclusions: Vector[]
+  exclusions: Vector[]
+}
 
 export type Data = {
   exchange: {
@@ -13,9 +18,6 @@ export type Data = {
     email: string
   }
   people: Person[]
-  rules: {
-    inclusions: Rule[]
-    exclusions: Rule[]
-  }
+  rules: Rules
   message: string
 }

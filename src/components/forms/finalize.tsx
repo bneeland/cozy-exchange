@@ -6,6 +6,7 @@ import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
+import { getVectors } from '@/helpers/assign'
 
 export default function FinalizeForm() {
   const { data, setData } = useContext(DataContext)
@@ -20,6 +21,12 @@ export default function FinalizeForm() {
 
   function None() {
     return <span className="text-slate-500">None</span>
+  }
+
+  function handleFinalize() {
+    const vectors = getVectors({ people: data.people, rules: data.rules })
+    console.log('vectors')
+    console.log(vectors)
   }
 
   return (
@@ -81,6 +88,7 @@ export default function FinalizeForm() {
       <Button
         label="Match and send now"
         icon={<PaperAirplaneIcon className="w-5 h-5" />}
+        onClick={handleFinalize}
       />
     </>
   )
