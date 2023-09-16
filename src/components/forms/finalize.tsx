@@ -24,9 +24,15 @@ export default function FinalizeForm() {
   }
 
   function handleFinalize() {
-    const vectors = getVectors({ people: data.people, rules: data.rules })
-    console.log('vectors')
-    console.log(vectors)
+    if (
+      window.confirm(
+        'Are you sure? This will automatically send emails to everyone with their matches.',
+      )
+    ) {
+      const vectors = getVectors({ people: data.people, rules: data.rules })
+      console.log('vectors')
+      console.log(vectors)
+    }
   }
 
   return (
@@ -70,6 +76,26 @@ export default function FinalizeForm() {
                       {person.name} &middot; {person.email}
                     </div>
                   ))) || <None />}
+              </td>
+            </tr>
+            <tr className="align-baseline">
+              <td>Rules</td>
+              <td>
+                {((data.rules.exclusions.length > 0 ||
+                  data.rules.inclusions.length > 0) && (
+                  <>
+                    {data.rules.exclusions.map((vector) => (
+                      <div key={vector.id}>
+                        {vector.from.name} must not give to {vector.to.name}
+                      </div>
+                    ))}
+                    {data.rules.inclusions.map((vector) => (
+                      <div key={vector.id}>
+                        {vector.from.name} must give to {vector.to.name}
+                      </div>
+                    ))}
+                  </>
+                )) || <None />}
               </td>
             </tr>
             <tr className="align-baseline">

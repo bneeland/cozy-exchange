@@ -2,7 +2,7 @@ export type SaveEvent = FocusEvent | KeyboardEvent
 
 export type Person = { id: string; name: string; email: string }
 
-export type Vector = { from: Person; to: Person }
+export type Vector = { id?: string; from: Person; to: Person }
 
 export type Rules = {
   inclusions: Vector[]
