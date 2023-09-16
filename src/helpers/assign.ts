@@ -20,74 +20,67 @@ function generateVectors({
   people: Person[]
   rules: Rules
 }) {
-  const randomizedPeople = randomize(people) as Person[]
+  const _people = randomize(people) as Person[]
 
-  let vectors: Vector[] = []
+  const _vectors: Vector[] = []
 
   rules.inclusions.forEach((inclusion) => {
-    vectors.push({ from: inclusion.from, to: inclusion.to })
+    _vectors.push({ from: inclusion.from, to: inclusion.to })
   })
 
   let excluded = false
-  let matched = false
+  let isMatched = false
   let iterations = 0
   let person2: Person
   let index2
 
-  randomizedPeople.forEach((person1, index1) => {
-    // for (let [index1, person1] of randomizedPeople.entries()) {
-    matched = false
+  _people.forEach((person1, index1) => {
+    isMatched = false
     iterations = 0
-    if (!vectors.some((vector) => vector.from === person1)) {
-      // if (!vectors.some((vector) => vector.from === person1.email)) {
-      if (index1 === randomizedPeople.length - 1) {
+    if (!_vectors.some((vector) => vector.from.id === person1.id)) {
+      if (index1 === _people.length - 1) {
         index2 = 0
       } else {
         index2 = index1 + 1
-        // index2 = parseInt(index1) + 1
       }
-      while (!matched) {
-        if (iterations < randomizedPeople.length * 2) {
+      while (!isMatched) {
+        if (iterations < _people.length * 2) {
           excluded = false
-          person2 = randomizedPeople[index2]
+          person2 = _people[index2]
           if (person2 === person1) {
-            if (index2 >= randomizedPeople.length - 1) {
+            if (index2 >= _people.length - 1) {
               index2 = 0
             } else {
               index2++
             }
             iterations++
-          } else if (vectors.some((vector) => vector.to === person2)) {
-            // } else if (vectors.some((vector) => vector.to === person2.email)) {
-            if (index2 >= randomizedPeople.length - 1) {
+          } else if (_vectors.some((vector) => vector.to.id === person2.id)) {
+            if (index2 >= _people.length - 1) {
               index2 = 0
             } else {
               index2++
             }
             iterations++
           } else {
-            for (const exclusion of rules.exclusions) {
+            rules.exclusions.forEach((exclusion) => {
               if (
-                exclusion.from === person1 &&
-                exclusion.to === person2
-                // exclusion.from === person1.email &&
-                // exclusion.to === person2.email
+                exclusion.from.id === person1.id &&
+                exclusion.to.id === person2.id
               ) {
                 excluded = true
-                break
+                return
               }
-            }
+            })
             if (excluded) {
-              if (index2 >= randomizedPeople.length - 1) {
+              if (index2 >= _people.length - 1) {
                 index2 = 0
               } else {
                 index2++
               }
               iterations++
             } else {
-              vectors.push({ from: person1, to: person2 })
-              // vectors.push({ from: person1.email, to: person2.email })
-              matched = true
+              _vectors.push({ from: person1, to: person2 })
+              isMatched = true
             }
           }
         } else {
@@ -96,8 +89,7 @@ function generateVectors({
       }
     }
   })
-  // }
-  return vectors
+  return _vectors
 }
 
 export function getVectors({
