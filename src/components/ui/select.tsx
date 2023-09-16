@@ -1,4 +1,3 @@
-import { Person } from '@/types'
 import { ChangeEventHandler } from 'react'
 
 export default function Select({
@@ -19,7 +18,6 @@ export default function Select({
 }) {
   return (
     <select name={name} id={id} value={value} onChange={onChange}>
-      <option value={undefined}></option>
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

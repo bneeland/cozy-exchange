@@ -73,6 +73,26 @@ export default function FinalizeForm() {
               </td>
             </tr>
             <tr className="align-baseline">
+              <td>Rules</td>
+              <td>
+                {(data.rules.exclusions.length > 0 &&
+                  data.rules.inclusions.length > 0 && (
+                    <>
+                      {data.rules.exclusions.map((vector) => (
+                        <div key={vector.id}>
+                          {vector.from.name} must not give to {vector.to.name}
+                        </div>
+                      ))}
+                      {data.rules.inclusions.map((vector) => (
+                        <div key={vector.id}>
+                          {vector.from.name} must give to {vector.to.name}
+                        </div>
+                      ))}
+                    </>
+                  )) || <None />}
+              </td>
+            </tr>
+            <tr className="align-baseline">
               <td>Message</td>
               <td>{data.message || <None />}</td>
             </tr>
