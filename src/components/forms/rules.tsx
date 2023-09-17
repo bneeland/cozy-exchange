@@ -118,7 +118,7 @@ export default function RulesForm() {
       <StickyBox>
         <form onSubmit={handleSaveNewRule}>
           <Fieldset legend="Add a rule">
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Select
                 id="from"
                 name="from"
