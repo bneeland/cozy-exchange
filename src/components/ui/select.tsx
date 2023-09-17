@@ -17,7 +17,13 @@ export default function Select({
   onChange: ChangeEventHandler<HTMLSelectElement>
 }) {
   return (
-    <select name={name} id={id} value={value} onChange={onChange}>
+    <select
+      name={name}
+      id={id}
+      value={value}
+      onChange={onChange}
+      className="bg-transparent"
+    >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
