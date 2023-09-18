@@ -123,7 +123,7 @@ export default function RulesForm() {
                 id="from"
                 name="from"
                 options={[
-                  { value: undefined, label: 'Select a person…' },
+                  { value: undefined, label: 'from…' },
                   ...data.people
                     .filter((person) => person.id !== newRule.to)
                     .map((person) => ({
@@ -155,7 +155,7 @@ export default function RulesForm() {
                 id="to"
                 name="to"
                 options={[
-                  { value: undefined, label: 'Select a person…' },
+                  { value: undefined, label: 'to…' },
                   ...data.people
                     .filter((person) => person.id !== newRule.from)
                     .map((person) => ({

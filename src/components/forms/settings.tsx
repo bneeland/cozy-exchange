@@ -25,7 +25,10 @@ export default function SettingsForm() {
           placeholder="Christmas gift exchange"
           value={data.exchange.name}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setData({ ...data, exchange: { name: e.target.value } })
+            setData({
+              ...data,
+              exchange: { ...data.exchange, name: e.target.value },
+            })
           }
           autoFocus
           autoSave
@@ -36,11 +39,17 @@ export default function SettingsForm() {
           id="contactName"
           label="Contact name"
           placeholder="John Doe"
-          value={data.contact.name}
+          value={data.exchange.contact.name}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setData({
               ...data,
-              contact: { ...data.contact, name: e.target.value },
+              exchange: {
+                ...data.exchange,
+                contact: {
+                  ...data.exchange.contact,
+                  name: e.target.value,
+                },
+              },
             })
           }
           autoSave
@@ -50,11 +59,17 @@ export default function SettingsForm() {
           label="Contact email"
           placeholder="john.doe@example.com"
           type="email"
-          value={data.contact.email}
+          value={data.exchange.contact.email}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setData({
               ...data,
-              contact: { ...data.contact, email: e.target.value },
+              exchange: {
+                ...data.exchange,
+                contact: {
+                  ...data.exchange.contact,
+                  email: e.target.value,
+                },
+              },
             })
           }
           autoSave

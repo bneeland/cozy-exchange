@@ -92,6 +92,34 @@ function generateVectors({
   return _vectors
 }
 
+function validateVectors({
+  vectors,
+  people,
+}: {
+  vectors: Vector[]
+  people: Person[]
+}) {
+  if (vectors.length !== people.length) {
+    console.warn('There is a match missing or there is an extra match')
+    return false
+  }
+  if (vectors.length !== new Set(vectors).size) {
+    console.warn('There are duplicate matches')
+    return false
+  }
+  if (
+    !people
+      .map((person) => person.id)
+      .every((personId) =>
+        vectors.map((vector) => vector.to.id).includes(personId),
+      )
+  ) {
+    console.warn('A person does not have a match')
+    return false
+  }
+  return true
+}
+
 export function getVectors({
   people,
   rules,
@@ -99,11 +127,12 @@ export function getVectors({
   people: Person[]
   rules: Rules
 }) {
-  let attemptNumber = 0
+  let attemptNumber = 1
   let vectors: Vector[] | undefined
   while (attemptNumber <= config.MAX_ATTEMPTS) {
     vectors = generateVectors({ people, rules })
-    if (vectors) {
+    const areVectorsValid = validateVectors({ vectors, people })
+    if (areVectorsValid) {
       return vectors
     }
     attemptNumber++
