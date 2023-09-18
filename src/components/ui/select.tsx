@@ -22,7 +22,7 @@ export default function Select({
       id={id}
       value={value}
       onChange={onChange}
-      className="bg-transparent"
+      className="bg-transparent text-xl"
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
