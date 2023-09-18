@@ -1,15 +1,27 @@
 'use client'
 
 import { DataContext } from '@/contexts/data'
-import { ChangeEvent, ReactNode, useContext, useEffect } from 'react'
+import { ChangeEvent, ReactNode, useContext, useEffect, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { getVectors } from '@/helpers/assign'
+import { Exchange, Vector } from '@/types'
+import axios from 'axios'
+
+const statuses = {
+  assignError:
+    "There was a issue trying to randomly assign matches in this exchange. Try removing some rules, and making sure they're not too restrictive.",
+  sendingEmails: 'Sending emails…',
+  emailsSuccess: "Emails have been sent! You're all done!",
+  emailsError: 'There was a problem sending the emails. Try again.',
+}
 
 export default function FinalizeForm() {
   const { data, setData } = useContext(DataContext)
+
+  const [status, setStatus] = useState<keyof typeof statuses | null>(null)
 
   useEffect(() => {
     const savedDataString = localStorage.getItem('data')
@@ -23,15 +35,57 @@ export default function FinalizeForm() {
     return <span className="text-slate-500">None</span>
   }
 
-  function handleFinalize() {
+  async function handleFinalize() {
     if (
       window.confirm(
         'Are you sure? This will automatically send emails to everyone with their matches.',
       )
     ) {
       const vectors = getVectors({ people: data.people, rules: data.rules })
-      console.log('vectors')
-      console.log(vectors)
+      if (vectors) {
+        try {
+          setStatus('sendingEmails')
+          const apiResponse = await sendEmails({
+            exchange: data.exchange,
+            vectors,
+          })
+          const { emailResponse } = apiResponse?.data
+          if (
+            emailResponse.every(
+              (response: { Message: string }) => response.Message === 'OK',
+            )
+          ) {
+            setStatus('emailsSuccess')
+          }
+        } catch (error) {
+          setStatus('emailsError')
+          console.error(error)
+        }
+      } else {
+        setStatus('assignError')
+      }
+    }
+  }
+
+  async function sendEmails({
+    exchange,
+    vectors,
+  }: {
+    exchange: Exchange
+    vectors: Vector[]
+  }) {
+    try {
+      const result = await axios({
+        method: 'post',
+        url: '/api/send-email',
+        data: {
+          exchange,
+          vectors,
+        },
+      })
+      return result
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -42,9 +96,12 @@ export default function FinalizeForm() {
           id="message"
           label="Message"
           placeholder="Write an optional message, including any special guidelines or details that you'd like everyone to know."
-          value={data.message}
+          value={data.exchange.message}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setData({ ...data, message: e.target.value })
+            setData({
+              ...data,
+              exchange: { ...data.exchange, message: e.target.value },
+            })
           }
           autoFocus
           autoSave
@@ -60,9 +117,10 @@ export default function FinalizeForm() {
             <tr className="align-baseline">
               <td>Contact</td>
               <td>
-                {(data.contact.name && data.contact.email && (
+                {(data.exchange.contact.name && data.exchange.contact.email && (
                   <div className="flex flex-col sm:flex-row">
-                    {data.contact.name} &middot; {data.contact.email}
+                    {data.exchange.contact.name} &middot;{' '}
+                    {data.exchange.contact.email}
                   </div>
                 )) || <None />}
               </td>
@@ -98,10 +156,6 @@ export default function FinalizeForm() {
                 )) || <None />}
               </td>
             </tr>
-            <tr className="align-baseline">
-              <td>Message</td>
-              <td>{data.message || <None />}</td>
-            </tr>
           </tbody>
         </table>
       </Fieldset>
@@ -116,6 +170,7 @@ export default function FinalizeForm() {
         icon={<PaperAirplaneIcon className="w-5 h-5" />}
         onClick={handleFinalize}
       />
+      {status && <div>{statuses[status]}</div>}
     </>
   )
 }

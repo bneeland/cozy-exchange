@@ -12,17 +12,17 @@ import {
 const initialData: Data = {
   exchange: {
     name: '',
-  },
-  contact: {
-    name: '',
-    email: '',
+    contact: {
+      name: '',
+      email: '',
+    },
+    message: '',
   },
   people: [],
   rules: {
     inclusions: [],
     exclusions: [],
   },
-  message: '',
 }
 
 export const DataContext = createContext<{
