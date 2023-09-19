@@ -1,20 +1,12 @@
 'use client'
 
-import { DataContext } from '@/contexts/data'
-import { ChangeEvent, useContext, useEffect } from 'react'
+import { ChangeEvent } from 'react'
 import Fieldset from '../fieldset'
 import TextInput from '../ui/textInput'
+import useData from '@/hooks/useData'
 
 export default function SettingsForm() {
-  const { data, setData } = useContext(DataContext)
-
-  useEffect(() => {
-    const savedDataString = localStorage.getItem('data')
-    const savedData = savedDataString && JSON.parse(savedDataString)
-    if (savedData) {
-      setData(savedData)
-    }
-  }, [setData])
+  const { data, setData } = useData()
 
   return (
     <>

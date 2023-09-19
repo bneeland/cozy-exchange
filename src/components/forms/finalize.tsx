@@ -1,7 +1,6 @@
 'use client'
 
-import { DataContext } from '@/contexts/data'
-import { ChangeEvent, ReactNode, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
@@ -9,6 +8,8 @@ import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { getVectors } from '@/helpers/assign'
 import { Exchange, Vector } from '@/types'
 import axios from 'axios'
+import useData from '@/hooks/useData'
+import ContentBox from '../contentBox'
 
 const statuses = {
   assignError:
@@ -19,17 +20,9 @@ const statuses = {
 }
 
 export default function FinalizeForm() {
-  const { data, setData } = useContext(DataContext)
+  const { data, setData } = useData()
 
   const [status, setStatus] = useState<keyof typeof statuses | null>(null)
-
-  useEffect(() => {
-    const savedDataString = localStorage.getItem('data')
-    const savedData = savedDataString && JSON.parse(savedDataString)
-    if (savedData) {
-      setData(savedData)
-    }
-  }, [setData])
 
   function None() {
     return <span className="text-slate-500">None</span>
@@ -90,87 +83,90 @@ export default function FinalizeForm() {
   }
 
   return (
-    <>
-      <Fieldset legend="Info">
-        <TextArea
-          id="message"
-          label="Message"
-          placeholder="Write an optional message, including any special guidelines or details that you'd like everyone to know."
-          value={data.exchange.message}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setData({
-              ...data,
-              exchange: { ...data.exchange, message: e.target.value },
-            })
-          }
-          autoFocus
-          autoSave
-        />
-      </Fieldset>
-      <Fieldset legend="Summary">
-        <table className="table-auto w-full whitespace-nowrap">
-          <tbody className="divide-y">
-            <tr className="align-baseline">
-              <td>Name</td>
-              <td>{data.exchange.name || <None />}</td>
-            </tr>
-            <tr className="align-baseline">
-              <td>Contact</td>
-              <td>
-                {(data.exchange.contact.name && data.exchange.contact.email && (
-                  <div className="flex flex-col sm:flex-row">
-                    {data.exchange.contact.name} &middot;{' '}
-                    {data.exchange.contact.email}
-                  </div>
-                )) || <None />}
-              </td>
-            </tr>
-            <tr className="align-baseline">
-              <td>People</td>
-              <td>
-                {(data.people.length > 0 &&
-                  data.people.map((person) => (
-                    <div key={person.id}>
-                      {person.name} &middot; {person.email}
-                    </div>
-                  ))) || <None />}
-              </td>
-            </tr>
-            <tr className="align-baseline">
-              <td>Rules</td>
-              <td>
-                {((data.rules.exclusions.length > 0 ||
-                  data.rules.inclusions.length > 0) && (
-                  <>
-                    {data.rules.exclusions.map((vector) => (
-                      <div key={vector.id}>
-                        {vector.from.name} must not give to {vector.to.name}
+    <div className="space-y-4">
+      <ContentBox header="Finalize">
+        <Fieldset legend="Info">
+          <TextArea
+            id="message"
+            label="Message"
+            placeholder="Write an optional message, including any special guidelines or details that you'd like everyone to know."
+            value={data.exchange.message}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setData({
+                ...data,
+                exchange: { ...data.exchange, message: e.target.value },
+              })
+            }
+            autoFocus
+            autoSave
+          />
+        </Fieldset>
+        <Fieldset legend="Summary">
+          <table className="table-auto w-full whitespace-nowrap">
+            <tbody className="divide-y">
+              <tr className="align-baseline">
+                <td>Name</td>
+                <td className="pb-2">{data.exchange.name || <None />}</td>
+              </tr>
+              <tr className="align-baseline">
+                <td>Contact</td>
+                <td className="py-2">
+                  {(data.exchange.contact.name &&
+                    data.exchange.contact.email && (
+                      <div className="flex flex-col sm:flex-row">
+                        {data.exchange.contact.name} &middot;{' '}
+                        {data.exchange.contact.email}
                       </div>
-                    ))}
-                    {data.rules.inclusions.map((vector) => (
-                      <div key={vector.id}>
-                        {vector.from.name} must give to {vector.to.name}
+                    )) || <None />}
+                </td>
+              </tr>
+              <tr className="align-baseline">
+                <td>People</td>
+                <td className="py-2">
+                  {(data.people.length > 0 &&
+                    data.people.map((person) => (
+                      <div key={person.id}>
+                        {person.name} &middot; {person.email}
                       </div>
-                    ))}
-                  </>
-                )) || <None />}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </Fieldset>
-      <hr />
-      <h1>Wrap it up!</h1>
-      <p>
-        If everything looks good, click the button below to generate random
-        matches and send emails to all participants.
-      </p>
-      <Button
-        label="Match and send now"
-        icon={<PaperAirplaneIcon className="w-5 h-5" />}
-        onClick={handleFinalize}
-      />
-      {status && <div>{statuses[status]}</div>}
-    </>
+                    ))) || <None />}
+                </td>
+              </tr>
+              <tr className="align-baseline">
+                <td>Rules</td>
+                <td className="pt-2">
+                  {((data.rules.exclusions.length > 0 ||
+                    data.rules.inclusions.length > 0) && (
+                    <>
+                      {data.rules.exclusions.map((vector) => (
+                        <div key={vector.id}>
+                          {vector.from.name} must not give to {vector.to.name}
+                        </div>
+                      ))}
+                      {data.rules.inclusions.map((vector) => (
+                        <div key={vector.id}>
+                          {vector.from.name} must give to {vector.to.name}
+                        </div>
+                      ))}
+                    </>
+                  )) || <None />}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Fieldset>
+      </ContentBox>
+      <ContentBox header="Match and send emails">
+        <div className="text-center space-y-3">
+          <h2>Everything look good?</h2>
+          <Button
+            label="Match and send emails"
+            icon={<PaperAirplaneIcon className="w-5 h-5" />}
+            onClick={handleFinalize}
+            color="lit"
+          />
+          {status && <div>{statuses[status]}</div>}
+        </div>
+      </ContentBox>
+    </div>
   )
 }

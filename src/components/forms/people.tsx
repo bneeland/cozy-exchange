@@ -1,7 +1,6 @@
 'use client'
 
-import { DataContext } from '@/contexts/data'
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextInput from '../ui/textInput'
 import Button from '../ui/button'
@@ -10,6 +9,7 @@ import { v4 as uuid } from 'uuid'
 import { save } from '@/helpers'
 import { TrashIcon } from '@heroicons/react/20/solid'
 import StickyBox from '../stickyBox'
+import useData from '@/hooks/useData'
 
 const initialNewPerson = () => ({
   id: uuid(),
@@ -18,15 +18,7 @@ const initialNewPerson = () => ({
 })
 
 export default function PeopleForm() {
-  const { data, setData } = useContext(DataContext)
-
-  useEffect(() => {
-    const savedDataString = localStorage.getItem('data')
-    const savedData = savedDataString && JSON.parse(savedDataString)
-    if (savedData) {
-      setData(savedData)
-    }
-  }, [setData])
+  const { data, setData } = useData()
 
   const [newPerson, setNewPerson] = useState(initialNewPerson)
 
@@ -36,7 +28,6 @@ export default function PeopleForm() {
     setData(newData)
     save(newData)
     setNewPerson(initialNewPerson)
-    ;(document.querySelector('#newPersonName') as HTMLElement)?.focus()
   }
 
   function handleDeletePerson(person: Person) {
