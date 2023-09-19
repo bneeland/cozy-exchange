@@ -14,12 +14,12 @@ import useData from '@/hooks/useData'
 const initialNewRule = () =>
   ({
     id: uuid(),
-    from: undefined,
-    to: undefined,
+    from: 'label',
+    to: 'label',
   }) as {
     id: string
-    from: string | undefined
-    to: string | undefined
+    from: string
+    to: string
   }
 
 const initialNewType = 'exclusions'
