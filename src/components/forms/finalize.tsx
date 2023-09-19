@@ -11,9 +11,9 @@ import axios from 'axios'
 import useData from '@/hooks/useData'
 import ContentBox from '../contentBox'
 
-const statuses = {
+const STATUSES = {
   assignError:
-    "There was a issue trying to randomly assign matches in this exchange. Try removing some rules, and making sure they're not too restrictive.",
+    "We weren\'t able to randomly assign matches in this exchange. Try removing some rules, and making sure they're not too restrictive.",
   sendingEmails: 'Sending emails…',
   emailsSuccess: "Emails have been sent! You're all done!",
   emailsError: 'There was a problem sending the emails. Try again.',
@@ -22,7 +22,7 @@ const statuses = {
 export default function FinalizeForm() {
   const { data, setData } = useData()
 
-  const [status, setStatus] = useState<keyof typeof statuses | null>(null)
+  const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
 
   function None() {
     return <span className="text-slate-500">None</span>
@@ -164,7 +164,7 @@ export default function FinalizeForm() {
             onClick={handleFinalize}
             color="lit"
           />
-          {status && <div>{statuses[status]}</div>}
+          {status && <div>{STATUSES[status]}</div>}
         </div>
       </ContentBox>
     </div>
