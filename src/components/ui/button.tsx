@@ -28,12 +28,12 @@ export default function Button({
     active:border-b-0 active:border-t-4 disabled:active:border-t-0 flex items-center gap-3 outline-none
     ${
       color === 'default'
-        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400 disabled:bg-slate-300'
+        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400 disabled:bg-slate-300 disabled:hover:bg-slate-300'
         : ''
     }
     ${
       color === 'lit'
-        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400 disabled:bg-slate-200'
+        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400 disabled:bg-slate-200 disabled:hover:bg-slate-200'
         : ''
     }
     ${(icon && !label) || (label && !icon) ? 'flex justify-center' : ''}
@@ -55,8 +55,20 @@ export default function Button({
         {icon && (
           <div
             className={`
-            ${color === 'default' ? disabled ? 'text-slate-400' : 'text-slate-500' : ''}
-            ${color === 'lit' ? disabled ? 'text-slate-400' : 'text-slate-500' : ''}
+            ${
+              color === 'default'
+                ? disabled
+                  ? 'text-slate-400'
+                  : 'text-slate-500'
+                : ''
+            }
+            ${
+              color === 'lit'
+                ? disabled
+                  ? 'text-slate-400'
+                  : 'text-slate-500'
+                : ''
+            }
           `}
           >
             {icon}
@@ -65,8 +77,20 @@ export default function Button({
         {label && (
           <div
             className={`
-          ${color === 'default' ? disabled ? 'text-slate-500' : 'text-slate-950' : ''}
-          ${color === 'lit' ? disabled ? 'text-slate-500' : 'text-slate-950' : ''}
+          ${
+            color === 'default'
+              ? disabled
+                ? 'text-slate-500'
+                : 'text-slate-950'
+              : ''
+          }
+          ${
+            color === 'lit'
+              ? disabled
+                ? 'text-slate-500'
+                : 'text-slate-950'
+              : ''
+          }
         `}
           >
             {label}
@@ -79,7 +103,12 @@ export default function Button({
   if (type === 'button' || type === 'submit')
     return (
       <div className={full ? 'w-full' : 'inline-block'}>
-        <button type={type} className={classNames} onClick={onClick} disabled={disabled}>
+        <button
+          type={type}
+          className={classNames}
+          onClick={onClick}
+          disabled={disabled}
+        >
           <ContentBox />
         </button>
       </div>
