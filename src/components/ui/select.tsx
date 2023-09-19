@@ -11,10 +11,10 @@ export default function Select({
   id: string
   name: string
   options: {
-    value: string | undefined
+    value: string
     label: string
   }[]
-  value: string | undefined
+  value: string
   onChange: ChangeEventHandler<HTMLSelectElement>
   label?: string
 }) {
@@ -26,11 +26,12 @@ export default function Select({
       onChange={onChange}
       className={`
         outline-none bg-transparent text-xl cursor-pointer
-        ${!value ? 'text-slate-500' : ''}
+        ${value === 'label' ? 'text-slate-500' : ''}
       `}
+      defaultValue="label"
     >
       {label && (
-        <option key={label} value="undefined" disabled={true} selected={true}>
+        <option value="label" disabled>
           {label}
         </option>
       )}
