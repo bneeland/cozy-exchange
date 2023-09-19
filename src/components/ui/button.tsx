@@ -10,7 +10,8 @@ export default function Button({
   type = 'button',
   href = '/',
   full = false,
-  isSelected = false,
+  disabled = false,
+  selected = false,
 }: {
   icon?: ReactNode
   label?: string
@@ -20,25 +21,26 @@ export default function Button({
   type?: 'button' | 'link' | 'submit'
   href?: string
   full?: boolean
-  isSelected?: boolean
+  disabled?: boolean
+  selected?: boolean
 }) {
   const classNames = `
-    active:border-b-0 active:border-t-4 flex items-center gap-3 outline-none
+    active:border-b-0 active:border-t-4 disabled:active:border-t-0 flex items-center gap-3 outline-none
     ${
       color === 'default'
-        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400'
+        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400 disabled:bg-slate-300 disabled:hover:bg-slate-300'
         : ''
     }
     ${
       color === 'lit'
-        ? 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 border-gradient-to-r border-slate-300 hover:border-slate-400'
+        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400 disabled:bg-slate-200 disabled:hover:bg-slate-200'
         : ''
     }
     ${(icon && !label) || (label && !icon) ? 'flex justify-center' : ''}
     ${
-      isSelected
+      selected
         ? 'border-b-0 border-t-4 bg-slate-300 border-slate-400'
-        : 'border-b-4'
+        : 'border-b-4 disabled:border-b-0'
     }
     ${
       (size === 'sm' && 'px-2 py-1 rounded-xl') ||
@@ -53,8 +55,20 @@ export default function Button({
         {icon && (
           <div
             className={`
-            ${color === 'default' ? 'text-slate-500' : ''}
-            ${color === 'lit' ? 'text-white' : ''}
+            ${
+              color === 'default'
+                ? disabled
+                  ? 'text-slate-400'
+                  : 'text-slate-500'
+                : ''
+            }
+            ${
+              color === 'lit'
+                ? disabled
+                  ? 'text-slate-400'
+                  : 'text-slate-500'
+                : ''
+            }
           `}
           >
             {icon}
@@ -63,8 +77,20 @@ export default function Button({
         {label && (
           <div
             className={`
-          ${color === 'default' ? 'text-slate-950' : ''}
-          ${color === 'lit' ? 'text-white' : ''}
+          ${
+            color === 'default'
+              ? disabled
+                ? 'text-slate-500'
+                : 'text-slate-950'
+              : ''
+          }
+          ${
+            color === 'lit'
+              ? disabled
+                ? 'text-slate-500'
+                : 'text-slate-950'
+              : ''
+          }
         `}
           >
             {label}
@@ -77,7 +103,12 @@ export default function Button({
   if (type === 'button' || type === 'submit')
     return (
       <div className={full ? 'w-full' : 'inline-block'}>
-        <button type={type} className={classNames} onClick={onClick}>
+        <button
+          type={type}
+          className={classNames}
+          onClick={onClick}
+          disabled={disabled}
+        >
           <ContentBox />
         </button>
       </div>

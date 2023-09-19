@@ -6,14 +6,14 @@ import TextArea from '../ui/textArea'
 import Button from '../ui/button'
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { getVectors } from '@/helpers/assign'
-import { Exchange, Vector } from '@/types'
+import { Data, Exchange, Vector } from '@/types'
 import axios from 'axios'
 import useData from '@/hooks/useData'
 import ContentBox from '../contentBox'
 
-const statuses = {
+const STATUSES = {
   assignError:
-    "There was a issue trying to randomly assign matches in this exchange. Try removing some rules, and making sure they're not too restrictive.",
+    "We weren't able to randomly assign matches in this exchange. Try removing some rules, and making sure they're not too restrictive.",
   sendingEmails: 'Sending emails…',
   emailsSuccess: "Emails have been sent! You're all done!",
   emailsError: 'There was a problem sending the emails. Try again.',
@@ -22,7 +22,7 @@ const statuses = {
 export default function FinalizeForm() {
   const { data, setData } = useData()
 
-  const [status, setStatus] = useState<keyof typeof statuses | null>(null)
+  const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
 
   function None() {
     return <span className="text-slate-500">None</span>
@@ -81,6 +81,9 @@ export default function FinalizeForm() {
       console.error(err)
     }
   }
+
+  const dataIsValid =
+    data.people.length >= 3 && data.people.every((person) => !!person.email)
 
   return (
     <div className="space-y-4">
@@ -157,14 +160,15 @@ export default function FinalizeForm() {
       </ContentBox>
       <ContentBox header="Match and send emails">
         <div className="text-center space-y-3">
-          <h2>Everything look good?</h2>
+          {dataIsValid && <h2>Everything look good?</h2>}
           <Button
             label="Match and send emails"
             icon={<PaperAirplaneIcon className="w-5 h-5" />}
             onClick={handleFinalize}
             color="lit"
+            disabled={!dataIsValid}
           />
-          {status && <div>{statuses[status]}</div>}
+          {status && <div>{STATUSES[status]}</div>}
         </div>
       </ContentBox>
     </div>

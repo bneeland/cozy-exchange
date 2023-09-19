@@ -37,7 +37,7 @@ export default function Navigation({
         type="link"
         href="/settings"
         onClick={toggle}
-        isSelected={isSelected('/settings')}
+        selected={isSelected('/settings')}
       />
       <Button
         icon={<UserGroupIcon className="w-5 h-5" />}
@@ -45,7 +45,7 @@ export default function Navigation({
         type="link"
         href="/people"
         onClick={toggle}
-        isSelected={isSelected('/people')}
+        selected={isSelected('/people')}
       />
       <Button
         icon={<CheckCircleIcon className="w-5 h-5" />}
@@ -53,7 +53,7 @@ export default function Navigation({
         type="link"
         href="/rules"
         onClick={toggle}
-        isSelected={isSelected('/rules')}
+        selected={isSelected('/rules')}
       />
       <Button
         icon={<BoltIcon className="w-5 h-5" />}
@@ -61,7 +61,7 @@ export default function Navigation({
         type="link"
         href="/finalize"
         onClick={toggle}
-        isSelected={isSelected('/finalize')}
+        selected={isSelected('/finalize')}
       />
     </div>
   )
