@@ -5,7 +5,7 @@ export default function Button({
   icon,
   label,
   onClick,
-  color = 'dark',
+  color = 'default',
   size = 'md',
   type = 'button',
   href = '/',
@@ -15,7 +15,7 @@ export default function Button({
   icon?: ReactNode
   label?: string
   onClick?: any
-  color?: 'dark' | 'light'
+  color?: 'default' | 'lit'
   size?: 'sm' | 'md'
   type?: 'button' | 'link' | 'submit'
   href?: string
@@ -23,9 +23,17 @@ export default function Button({
   isSelected?: boolean
 }) {
   const classNames = `
-    active:border-b-0 active:border-t-4 border-slate-300 hover:border-slate-400 flex items-center gap-3 outline-none focus:bg-blue-200 focus:border-blue-300
-    ${color === 'dark' ? 'bg-slate-200 hover:bg-slate-300' : ''}
-    ${color === 'light' ? 'bg-white hover:bg-slate-300' : ''}
+    active:border-b-0 active:border-t-4 flex items-center gap-3 outline-none
+    ${
+      color === 'default'
+        ? 'bg-slate-200 hover:bg-slate-300 border-slate-300 hover:border-slate-400'
+        : ''
+    }
+    ${
+      color === 'lit'
+        ? 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 border-gradient-to-r border-slate-300 hover:border-slate-400'
+        : ''
+    }
     ${(icon && !label) || (label && !icon) ? 'flex justify-center' : ''}
     ${
       isSelected
@@ -42,8 +50,26 @@ export default function Button({
   function ContentBox() {
     return (
       <>
-        {icon && <div className="text-slate-400">{icon}</div>}
-        {label && <div className="text-slate-800">{label}</div>}
+        {icon && (
+          <div
+            className={`
+            ${color === 'default' ? 'text-slate-500' : ''}
+            ${color === 'lit' ? 'text-white' : ''}
+          `}
+          >
+            {icon}
+          </div>
+        )}
+        {label && (
+          <div
+            className={`
+          ${color === 'default' ? 'text-slate-950' : ''}
+          ${color === 'lit' ? 'text-white' : ''}
+        `}
+          >
+            {label}
+          </div>
+        )}
       </>
     )
   }

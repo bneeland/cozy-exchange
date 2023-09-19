@@ -6,6 +6,7 @@ export default function Select({
   options,
   value,
   onChange,
+  label,
 }: {
   id: string
   name: string
@@ -15,6 +16,7 @@ export default function Select({
   }[]
   value: string | undefined
   onChange: ChangeEventHandler<HTMLSelectElement>
+  label?: string
 }) {
   return (
     <select
@@ -22,8 +24,16 @@ export default function Select({
       id={id}
       value={value}
       onChange={onChange}
-      className="bg-transparent text-xl"
+      className={`
+        outline-none bg-transparent text-xl cursor-pointer
+        ${!value ? 'text-slate-500' : ''}
+      `}
     >
+      {label && (
+        <option key={label} value="undefined" disabled={true} selected={true}>
+          {label}
+        </option>
+      )}
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

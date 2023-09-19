@@ -5,6 +5,7 @@ import Logo from '@/components/logo'
 import Link from 'next/link'
 import Navigation from '@/components/navigation'
 import { DataProvider } from '@/contexts/data'
+import { ReactNode } from 'react'
 
 const exo2 = Exo_2({ subsets: ['latin'] })
 
@@ -13,16 +14,12 @@ export const metadata: Metadata = {
   description: 'Simple yet powerful group gift exchange tool',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <DataProvider>
       <html lang="en">
         <body
-          className={`${exo2.className} h-screen w-screen flex flex-col gap-4 p-4 text-sm`}
+          className={`${exo2.className} h-screen w-screen flex flex-col gap-4 p-4 text-sm text-slate-950`}
         >
           <div className="flex gap-4">
             <div className="flex-1 flex justify-start items-center">

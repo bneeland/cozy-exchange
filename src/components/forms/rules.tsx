@@ -1,7 +1,6 @@
 'use client'
 
-import { DataContext } from '@/contexts/data'
-import { FormEvent, useContext, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import Fieldset from '../fieldset'
 import Button from '../ui/button'
 import { Data, Rules, Vector } from '@/types'
@@ -10,6 +9,7 @@ import { save } from '@/helpers'
 import { TrashIcon } from '@heroicons/react/20/solid'
 import StickyBox from '../stickyBox'
 import Select from '../ui/select'
+import useData from '@/hooks/useData'
 
 const initialNewRule = () =>
   ({
@@ -25,15 +25,7 @@ const initialNewRule = () =>
 const initialNewType = 'exclusions'
 
 export default function RulesForm() {
-  const { data, setData } = useContext(DataContext)
-
-  useEffect(() => {
-    const savedDataString = localStorage.getItem('data')
-    const savedData = savedDataString && JSON.parse(savedDataString)
-    if (savedData) {
-      setData(savedData)
-    }
-  }, [setData])
+  const { data, setData } = useData()
 
   const [newRule, setNewRule] = useState(initialNewRule)
   const [newType, setNewType] = useState<'exclusions' | 'inclusions'>(
@@ -118,12 +110,12 @@ export default function RulesForm() {
       <StickyBox>
         <form onSubmit={handleSaveNewRule}>
           <Fieldset legend="Add a rule">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
               <Select
                 id="from"
                 name="from"
+                label="Select person"
                 options={[
-                  { value: undefined, label: '—' },
                   ...data.people
                     .filter((person) => person.id !== newRule.to)
                     .map((person) => ({
@@ -154,8 +146,8 @@ export default function RulesForm() {
               <Select
                 id="to"
                 name="to"
+                label="Select person"
                 options={[
-                  { value: undefined, label: '—' },
                   ...data.people
                     .filter((person) => person.id !== newRule.from)
                     .map((person) => ({
