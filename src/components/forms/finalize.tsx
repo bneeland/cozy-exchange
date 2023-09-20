@@ -16,10 +16,10 @@ import ContentBox from '../contentBox'
 
 const STATUSES = {
   assignError:
-    "We weren't able to randomly assign matches in this exchange. Try removing some rules, and making sure they're not too restrictive.",
+    "We weren't able to randomly assign matches in this exchange. Try removing some rules and making sure they're not too restrictive.",
   sendingEmails: 'Sending emails…',
-  emailsSuccess: "Emails have been sent! You're all done!",
-  emailsError: 'There was a problem sending the emails. Try again.',
+  emailSuccess: "Emails have been sent! You're all done!",
+  emailError: 'There was a problem sending the emails. Try again.',
 }
 
 export default function FinalizeForm() {
@@ -66,10 +66,10 @@ export default function FinalizeForm() {
               (response: { Message: string }) => response.Message === 'OK',
             )
           ) {
-            setStatus('emailsSuccess')
+            setStatus('emailSuccess')
           }
         } catch (error) {
-          setStatus('emailsError')
+          setStatus('emailError')
           console.error(error)
         }
       } else {
@@ -190,7 +190,10 @@ export default function FinalizeForm() {
             icon={<PaperAirplaneIcon className="w-5 h-5" />}
             onClick={handleFinalize}
             color="lit"
-            disabled={!isValid}
+            disabled={
+              !isValid ||
+              (!!status && ['sendingEmails', 'assignError'].includes(status))
+            }
           />
           {status && <div>{STATUSES[status]}</div>}
         </div>
