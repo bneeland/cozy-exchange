@@ -19,21 +19,24 @@ function getMessage({
       exchange.name
         ? `Your match for ${exchange.name}`
         : 'Your match for a gift exchange'
-    }\nHello ${vector.from.name},\n${
+    }\n\nHello ${vector.from.name},\n\n${
       exchange.name
-        ? `Here is your match for ${exchange.name}`
-        : 'Here is your match for a gift exchange:'
-    }:\n${vector.to.name}\nYou will give a gift to ${
+        ? `You have been included in a gift exchange named ${exchange.name}.`
+        : 'You have been included in a gift exchange.'
+    }\n\nThe person you are assigned to is:\n\n${
       vector.to.name
-    }, and someone will give you a gift as part of the exchange.\n${
+    }\n\nYou will give a gift to ${
+      vector.to.name
+    }, and someone will give you a gift as part of the exchange.\n\n${
       exchange.contact.name &&
       `If you have any questions, get in touch with ${exchange.contact.name}${
         exchange.contact.email && ` at ${exchange.contact.email}`
-      }.\n`
+      }.\n\n`
     }${
       exchange.message &&
-      `Here's an extra message with details about the exchange:\n"${exchange.message}"\n`
-    }Powered by cozy.exchange`,
+      `Here's an extra message with details about the exchange:\n${exchange.message}\n\n`
+    }Powered by www.cozy.exchange
+    `,
     HtmlBody: `
       <h1>${
         exchange.name
@@ -43,9 +46,10 @@ function getMessage({
       <p>Hello ${vector.from.name},</p>
       <p>${
         exchange.name
-          ? `Here is your match for ${exchange.name}`
-          : 'Here is your match for a gift exchange:'
-      }:</p>
+          ? `You have been included in a gift exchange named ${exchange.name}.`
+          : 'You have been included in a gift exchange.'
+      }</p>
+      <p>The person you are assigned to is:</p>
       <h2>${vector.to.name}</h2>
       <p>You will give a gift to ${
         vector.to.name
@@ -61,7 +65,7 @@ function getMessage({
         `<p>Here's an extra message with details about the exchange:</p><p><i>${exchange.message}</i></p>`
       }
       <hr />
-      <div><small>Powered by <a href="https://www.cozy.exchange/">cozy.exchange</a></small></div>
+      <div><small>Powered by <a href="https://www.cozy.exchange/" target="_blank">cozy.exchange</a></small></div>
     `,
   }
 }
