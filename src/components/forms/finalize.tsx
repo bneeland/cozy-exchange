@@ -1,28 +1,46 @@
 'use client'
 
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
-import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
+import {
+  ExclamationCircleIcon,
+  PaperAirplaneIcon,
+} from '@heroicons/react/20/solid'
 import { getVectors } from '@/helpers/assign'
-import { Data, Exchange, Vector } from '@/types'
+import { Exchange, Vector } from '@/types'
 import axios from 'axios'
 import useData from '@/hooks/useData'
 import ContentBox from '../contentBox'
 
 const STATUSES = {
   assignError:
-    "We weren't able to randomly assign matches in this exchange. Try removing some rules, and making sure they're not too restrictive.",
+    "We weren't able to randomly assign matches in this exchange. Try removing some rules and making sure they're not too restrictive.",
   sendingEmails: 'Sending emails…',
-  emailsSuccess: "Emails have been sent! You're all done!",
-  emailsError: 'There was a problem sending the emails. Try again.',
+  emailSuccess: "Emails have been sent! You're all done!",
+  emailError: 'There was a problem sending the emails. Try again.',
 }
 
 export default function FinalizeForm() {
   const { data, setData } = useData()
 
   const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
+  const [isValid, setIsValid] = useState<boolean>(false)
+  const [problem, setProblem] = useState<string>('')
+
+  useEffect(() => {
+    if (data.people.length < 3) {
+      setProblem('Your exchange must have at least three people in it.')
+      return
+    }
+    if (!data.people.every((person) => !!person.email)) {
+      setProblem('Every person must have an email address.')
+      return
+    }
+    setProblem('')
+    setIsValid(true)
+  }, [data])
 
   function None() {
     return <span className="text-slate-500">None</span>
@@ -48,10 +66,10 @@ export default function FinalizeForm() {
               (response: { Message: string }) => response.Message === 'OK',
             )
           ) {
-            setStatus('emailsSuccess')
+            setStatus('emailSuccess')
           }
         } catch (error) {
-          setStatus('emailsError')
+          setStatus('emailError')
           console.error(error)
         }
       } else {
@@ -81,9 +99,6 @@ export default function FinalizeForm() {
       console.error(err)
     }
   }
-
-  const dataIsValid =
-    data.people.length >= 3 && data.people.every((person) => !!person.email)
 
   return (
     <div className="space-y-4">
@@ -160,13 +175,25 @@ export default function FinalizeForm() {
       </ContentBox>
       <ContentBox header="Match and send emails">
         <div className="text-center space-y-3">
-          {dataIsValid && <h2>Everything look good?</h2>}
+          <h2>
+            {isValid ? (
+              'Everything look good?'
+            ) : (
+              <div className="flex justify-center items-center gap-1.5">
+                <ExclamationCircleIcon className="w-5 h-5 text-slate-400" />{' '}
+                {problem}
+              </div>
+            )}
+          </h2>
           <Button
             label="Match and send emails"
             icon={<PaperAirplaneIcon className="w-5 h-5" />}
             onClick={handleFinalize}
             color="lit"
-            disabled={!dataIsValid}
+            disabled={
+              !isValid ||
+              (!!status && ['sendingEmails', 'assignError'].includes(status))
+            }
           />
           {status && <div>{STATUSES[status]}</div>}
         </div>

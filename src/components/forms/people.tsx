@@ -124,7 +124,12 @@ export default function PeopleForm() {
               }
               required
             />
-            <Button type="submit" label="Save" full />
+            <Button
+              type="submit"
+              label="Save"
+              full
+              disabled={!newPerson.name || !newPerson.email}
+            />
           </Fieldset>
         </form>
       </StickyBox>

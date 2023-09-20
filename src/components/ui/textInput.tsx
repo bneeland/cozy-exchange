@@ -40,7 +40,7 @@ export default function TextInput({
   }
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 w-full">
       {label && (
         <label htmlFor={id} className="block">
           {label}

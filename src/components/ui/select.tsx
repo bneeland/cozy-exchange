@@ -25,7 +25,7 @@ export default function Select({
       value={value}
       onChange={onChange}
       className={`
-        outline-none bg-transparent text-xl cursor-pointer
+        outline-none bg-transparent text-xl cursor-pointer focus:bg-slate-100 rounded-xl
         ${value === 'label' ? 'text-slate-500' : ''}
       `}
       defaultValue="label"
