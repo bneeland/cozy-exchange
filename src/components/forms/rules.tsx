@@ -164,7 +164,12 @@ export default function RulesForm() {
                 }
               />
             </div>
-            <Button type="submit" label="Save" full />
+            <Button
+              type="submit"
+              label="Save"
+              full
+              disabled={newRule.from === 'label' || newRule.to === 'label'}
+            />
           </Fieldset>
         </form>
       </StickyBox>
