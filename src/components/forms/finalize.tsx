@@ -34,6 +34,10 @@ export default function FinalizeForm() {
       setProblem('Your exchange must have at least three people in it.')
       return
     }
+    if (!data.people.every((person) => !!person.name)) {
+      setProblem('Every person must have a name.')
+      return
+    }
     if (!data.people.every((person) => !!person.email)) {
       setProblem('Every person must have an email address.')
       return
