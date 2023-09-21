@@ -53,7 +53,7 @@ export default function FinalizeForm() {
   async function handleFinalize() {
     if (
       window.confirm(
-        'Are you sure? This will automatically send emails to everyone with their matches.',
+        'Emails will automatically be sent to everyone with their matches. Are you sure?',
       )
     ) {
       const vectors = getVectors({ people: data.people, rules: data.rules })
@@ -184,7 +184,9 @@ export default function FinalizeForm() {
               'Everything look good?'
             ) : (
               <div className="flex justify-center items-center gap-1.5">
-                <ExclamationCircleIcon className="w-5 h-5 text-slate-400" />{' '}
+                {problem && (
+                  <ExclamationCircleIcon className="w-5 h-5 text-slate-400" />
+                )}{' '}
                 {problem}
               </div>
             )}
@@ -193,7 +195,6 @@ export default function FinalizeForm() {
             label="Match and send emails"
             icon={<PaperAirplaneIcon className="w-5 h-5" />}
             onClick={handleFinalize}
-            color="lit"
             disabled={
               !isValid ||
               (!!status && ['sendingEmails', 'assignError'].includes(status))

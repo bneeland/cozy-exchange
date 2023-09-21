@@ -93,18 +93,26 @@ function generateVectors({
 }
 
 function validateVectors({
-  vectors,
   people,
+  rules,
+  vectors,
 }: {
-  vectors: Vector[]
   people: Person[]
+  rules: Rules
+  vectors: Vector[]
 }) {
   if (vectors.length !== people.length) {
     console.warn('There is a match missing or there is an extra match')
     return false
   }
-  if (vectors.length !== new Set(vectors).size) {
-    console.warn('There are duplicate matches')
+  if (
+    !people
+      .map((person) => person.id)
+      .every((personId) =>
+        vectors.map((vector) => vector.from.id).includes(personId),
+      )
+  ) {
+    console.warn('A person is not giving a gift')
     return false
   }
   if (
@@ -114,7 +122,35 @@ function validateVectors({
         vectors.map((vector) => vector.to.id).includes(personId),
       )
   ) {
-    console.warn('A person does not have a match')
+    console.warn('A person is not receiving a gift')
+    return false
+  }
+  if (vectors.some((vector) => vector.from.id === vector.to.id)) {
+    console.warn('A person is giving to himself')
+    return false
+  }
+  if (
+    rules.exclusions.some((exclusion) =>
+      vectors.some(
+        (vector) =>
+          vector.from.id === exclusion.from.id &&
+          vector.to.id === exclusion.to.id,
+      ),
+    )
+  ) {
+    console.warn('A person is giving to someone whom he must not')
+    return false
+  }
+  if (
+    !rules.inclusions.some((inclusion) =>
+      vectors.some(
+        (vector) =>
+          vector.from.id === inclusion.from.id &&
+          vector.to.id === inclusion.to.id,
+      ),
+    )
+  ) {
+    console.warn('A person is not giving to someone whom he must')
     return false
   }
   return true
@@ -131,7 +167,7 @@ export function getVectors({
   let vectors: Vector[] | undefined
   while (attemptNumber <= config.MAX_ATTEMPTS) {
     vectors = generateVectors({ people, rules })
-    const areVectorsValid = validateVectors({ vectors, people })
+    const areVectorsValid = validateVectors({ people, rules, vectors })
     if (areVectorsValid) {
       return vectors
     }
