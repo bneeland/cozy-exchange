@@ -130,6 +130,7 @@ function validateVectors({
     return false
   }
   if (
+    rules.exclusions.length > 0 &&
     rules.exclusions.some((exclusion) =>
       vectors.some(
         (vector) =>
@@ -142,6 +143,7 @@ function validateVectors({
     return false
   }
   if (
+    rules.inclusions.length > 0 &&
     !rules.inclusions.some((inclusion) =>
       vectors.some(
         (vector) =>
