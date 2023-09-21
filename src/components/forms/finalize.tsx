@@ -57,30 +57,28 @@ export default function FinalizeForm() {
       )
     ) {
       const vectors = getVectors({ people: data.people, rules: data.rules })
-      console.log('vectors')
-      console.log(vectors)
-      // if (vectors) {
-      //   try {
-      //     setStatus('sendingEmails')
-      //     const apiResponse = await sendEmails({
-      //       exchange: data.exchange,
-      //       vectors,
-      //     })
-      //     const { emailResponse } = apiResponse?.data
-      //     if (
-      //       emailResponse.every(
-      //         (response: { Message: string }) => response.Message === 'OK',
-      //       )
-      //     ) {
-      //       setStatus('emailSuccess')
-      //     }
-      //   } catch (error) {
-      //     setStatus('emailError')
-      //     console.error(error)
-      //   }
-      // } else {
-      //   setStatus('assignError')
-      // }
+      if (vectors) {
+        try {
+          setStatus('sendingEmails')
+          const apiResponse = await sendEmails({
+            exchange: data.exchange,
+            vectors,
+          })
+          const { emailResponse } = apiResponse?.data
+          if (
+            emailResponse.every(
+              (response: { Message: string }) => response.Message === 'OK',
+            )
+          ) {
+            setStatus('emailSuccess')
+          }
+        } catch (error) {
+          setStatus('emailError')
+          console.error(error)
+        }
+      } else {
+        setStatus('assignError')
+      }
     }
   }
 
