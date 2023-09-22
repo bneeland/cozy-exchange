@@ -179,18 +179,7 @@ export default function FinalizeForm() {
       </ContentBox>
       <ContentBox header="Match and send emails">
         <div className="text-center space-y-3">
-          <h2>
-            {isValid ? (
-              'Everything look good?'
-            ) : (
-              <div className="flex justify-center items-center gap-1.5">
-                {problem && (
-                  <ExclamationCircleIcon className="w-5 h-5 text-slate-400" />
-                )}{' '}
-                {problem}
-              </div>
-            )}
-          </h2>
+          <h2>{isValid ? 'Everything look good?' : problem}</h2>
           <Button
             label="Match and send emails"
             icon={<PaperAirplaneIcon className="w-5 h-5" />}
