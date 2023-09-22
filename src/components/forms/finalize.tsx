@@ -30,8 +30,10 @@ export default function FinalizeForm() {
   const [problem, setProblem] = useState<string>('')
 
   useEffect(() => {
-    if (data.people.length < 3) {
-      setProblem('Your exchange must have at least three people in it.')
+    if (new Set(data.people.map((person) => person.email)).size < 3) {
+      setProblem(
+        'Your exchange must have at least three different people in it (with three different email addresses).',
+      )
       return
     }
     if (!data.people.every((person) => !!person.name)) {
@@ -178,7 +180,7 @@ export default function FinalizeForm() {
         </Fieldset>
       </ContentBox>
       <ContentBox header="Match and send emails">
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-4">
           <h2>{isValid ? 'Everything look good?' : problem}</h2>
           <Button
             label="Match and send emails"
