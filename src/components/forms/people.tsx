@@ -35,6 +35,16 @@ export default function PeopleForm() {
       const newData: Data = {
         ...data,
         people: data.people.filter((_person) => _person.id !== person.id),
+        rules: {
+          inclusions: data.rules.inclusions.filter(
+            (inclusion) =>
+              ![inclusion.from.id, inclusion.to.id].includes(person.id),
+          ),
+          exclusions: data.rules.exclusions.filter(
+            (exclusion) =>
+              ![exclusion.from.id, exclusion.to.id].includes(person.id),
+          ),
+        },
       }
       setData(newData)
       save(newData)
