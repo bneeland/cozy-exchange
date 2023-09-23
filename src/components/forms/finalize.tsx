@@ -4,10 +4,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
-import {
-  ExclamationCircleIcon,
-  PaperAirplaneIcon,
-} from '@heroicons/react/20/solid'
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { getVectors } from '@/helpers/assign'
 import { Exchange, Vector } from '@/types'
 import axios from 'axios'
@@ -50,6 +47,10 @@ export default function FinalizeForm() {
 
   function None() {
     return <span className="text-slate-500">None</span>
+  }
+
+  function EmptyPerson() {
+    return <span className="text-slate-500">Empty person</span>
   }
 
   async function handleFinalize() {
@@ -135,13 +136,16 @@ export default function FinalizeForm() {
               <tr className="align-baseline">
                 <td>Contact</td>
                 <td className="py-2">
-                  {(data.exchange.contact.name &&
-                    data.exchange.contact.email && (
-                      <div className="flex flex-col sm:flex-row">
-                        {data.exchange.contact.name} &middot;{' '}
-                        {data.exchange.contact.email}
-                      </div>
-                    )) || <None />}
+                  {data.exchange.contact.name || data.exchange.contact.email ? (
+                    <div className="flex flex-col sm:flex-row">
+                      {data.exchange.contact.name}
+                      {data.exchange.contact.name &&
+                        data.exchange.contact.email && <> &middot; </>}
+                      {data.exchange.contact.email}
+                    </div>
+                  ) : (
+                    <None />
+                  )}
                 </td>
               </tr>
               <tr className="align-baseline">
@@ -150,7 +154,15 @@ export default function FinalizeForm() {
                   {(data.people.length > 0 &&
                     data.people.map((person) => (
                       <div key={person.id}>
-                        {person.name} &middot; {person.email}
+                        {person.name || person.email ? (
+                          <>
+                            {person.name}
+                            {person.name && person.email && <> &middot; </>}
+                            {person.email}
+                          </>
+                        ) : (
+                          <EmptyPerson />
+                        )}
                       </div>
                     ))) || <None />}
                 </td>

@@ -49,7 +49,9 @@ export default function Button({
       (size === 'md' && 'px-4 py-2 rounded-2xl')
     }
     ${full ? 'w-full' : ''}
-    ${!focus ? '' : 'outline-offset-0 focus:outline-4 focus:outline-blue-400/40'}
+    ${
+      !focus ? '' : 'outline-offset-0 focus:outline-4 focus:outline-blue-400/40'
+    }
   `
 
   function ContentBox() {
