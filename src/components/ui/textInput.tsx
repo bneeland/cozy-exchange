@@ -49,7 +49,7 @@ export default function TextInput({
       <input
         id={id}
         type={type}
-        className="outline-none text-xl w-full bg-transparent"
+        className="text-xl w-full bg-transparent py-2 rounded-2xl outline-none outline-offset-2 focus:outline-4 focus:outline-blue-400/40"
         placeholder={placeholder}
         autoFocus={autoFocus}
         required={required}

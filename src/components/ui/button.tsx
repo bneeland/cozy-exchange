@@ -12,6 +12,7 @@ export default function Button({
   full = false,
   disabled = false,
   selected = false,
+  focus = true,
 }: {
   icon?: ReactNode
   label?: string
@@ -23,6 +24,7 @@ export default function Button({
   full?: boolean
   disabled?: boolean
   selected?: boolean
+  focus?: boolean
 }) {
   const classNames = `
     active:border-b-0 active:border-t-4 disabled:active:border-b-4 disabled:active:border-t-0 flex items-center gap-3 outline-none
@@ -47,6 +49,7 @@ export default function Button({
       (size === 'md' && 'px-4 py-2 rounded-2xl')
     }
     ${full ? 'w-full' : ''}
+    ${!focus ? '' : 'outline-offset-0 focus:outline-4 focus:outline-blue-400/40'}
   `
 
   function ContentBox() {
