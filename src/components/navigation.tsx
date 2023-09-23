@@ -38,6 +38,7 @@ export default function Navigation({
         href="/settings"
         onClick={toggle}
         selected={isSelected('/settings')}
+        focus={false}
       />
       <Button
         icon={<UserGroupIcon className="w-5 h-5" />}
@@ -46,6 +47,7 @@ export default function Navigation({
         href="/people"
         onClick={toggle}
         selected={isSelected('/people')}
+        focus={false}
       />
       <Button
         icon={<CheckCircleIcon className="w-5 h-5" />}
@@ -54,6 +56,7 @@ export default function Navigation({
         href="/rules"
         onClick={toggle}
         selected={isSelected('/rules')}
+        focus={false}
       />
       <Button
         icon={<BoltIcon className="w-5 h-5" />}
@@ -62,6 +65,7 @@ export default function Navigation({
         href="/finalize"
         onClick={toggle}
         selected={isSelected('/finalize')}
+        focus={false}
       />
     </div>
   )
