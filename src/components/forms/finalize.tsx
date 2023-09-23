@@ -130,11 +130,11 @@ export default function FinalizeForm() {
           <table className="table-auto w-full whitespace-nowrap">
             <tbody className="divide-y">
               <tr className="align-baseline">
-                <td>Name</td>
+                <td className="pr-4">Name</td>
                 <td className="pb-2">{data.exchange.name || <None />}</td>
               </tr>
               <tr className="align-baseline">
-                <td>Contact</td>
+                <td className="pr-4">Contact</td>
                 <td className="py-2">
                   {data.exchange.contact.name || data.exchange.contact.email ? (
                     <div className="flex flex-col sm:flex-row">
@@ -149,7 +149,7 @@ export default function FinalizeForm() {
                 </td>
               </tr>
               <tr className="align-baseline">
-                <td>People</td>
+                <td className="pr-4">People</td>
                 <td className="py-2">
                   {(data.people.length > 0 &&
                     data.people.map((person) => (
@@ -168,7 +168,7 @@ export default function FinalizeForm() {
                 </td>
               </tr>
               <tr className="align-baseline">
-                <td>Rules</td>
+                <td className="pr-4">Rules</td>
                 <td className="pt-2">
                   {((data.rules.exclusions.length > 0 ||
                     data.rules.inclusions.length > 0) && (
