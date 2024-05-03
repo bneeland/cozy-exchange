@@ -9,8 +9,8 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/20/solid'
-import { useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function Navigation({
   format = 'desktop',
@@ -18,54 +18,72 @@ export default function Navigation({
   format?: 'desktop' | 'mobile'
 }) {
   const pathname = usePathname()
+  const router = useRouter()
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedPathname, setSelectedPathname] = useState<string | null>(null)
 
   function toggle() {
     setIsOpen((currentValue) => !currentValue)
   }
 
   function isSelected(href: string) {
-    return pathname === href
+    return selectedPathname === href || pathname === href
   }
+
+  useEffect(() => {
+    setSelectedPathname(null)
+  }, [pathname])
 
   const Items = () => (
     <div className="flex flex-col gap-4">
       <Button
         icon={<Cog6ToothIcon className="w-5 h-5" />}
         label="Settings"
-        type="link"
-        href="/settings"
-        onClick={toggle}
+        onClick={() => {
+          setSelectedPathname('/settings')
+          router.push('/settings')
+          toggle()
+        }}
         selected={isSelected('/settings')}
         focus={false}
+        full
       />
       <Button
         icon={<UserGroupIcon className="w-5 h-5" />}
         label="People"
-        type="link"
-        href="/people"
-        onClick={toggle}
+        onClick={async () => {
+          setSelectedPathname('/people')
+          router.push('/people')
+          toggle()
+        }}
         selected={isSelected('/people')}
         focus={false}
+        full
       />
       <Button
         icon={<CheckCircleIcon className="w-5 h-5" />}
         label="Rules"
-        type="link"
-        href="/rules"
-        onClick={toggle}
+        onClick={() => {
+          setSelectedPathname('/rules')
+          router.push('/rules')
+          toggle()
+        }}
         selected={isSelected('/rules')}
         focus={false}
+        full
       />
       <Button
         icon={<BoltIcon className="w-5 h-5" />}
         label="Finalize"
-        type="link"
-        href="/finalize"
-        onClick={toggle}
+        onClick={() => {
+          setSelectedPathname('/finalize')
+          router.push('/finalize')
+          toggle()
+        }}
         selected={isSelected('/finalize')}
         focus={false}
+        full
       />
     </div>
   )
