@@ -88,8 +88,8 @@ export default function Navigation({
         {isOpen && (
           <>
             <div className="absolute inset-x-0 top-0 h-screen flex z-50">
-              <div className="flex flex-1 overflow-y-auto bg-white/20 backdrop-blur">
-                <div className="flex flex-1 overflow-hidden rounded-r-2xl border-r-4 border-slate-300">
+              <div className="flex flex-1 overflow-y-auto bg-black/40 backdrop-blur">
+                <div className="flex flex-1 overflow-hidden rounded-r-2xl border-r-4 border-slate-300 z-50">
                   <div className="flex-1 overflow-y-auto bg-white p-4 space-y-4">
                     <Button
                       icon={<XMarkIcon className="w-5 h-5" />}
