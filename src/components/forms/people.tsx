@@ -99,6 +99,7 @@ export default function PeopleForm() {
                   handlePersonChange({ e, person, field: 'email' })
                 }
                 autoSave
+                type="email"
               />
             </div>
             <Button
