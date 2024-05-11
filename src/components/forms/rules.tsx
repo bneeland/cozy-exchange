@@ -92,8 +92,6 @@ export default function RulesForm() {
             />
           </div>
         ))}
-        {data.rules.exclusions.length > 0 &&
-          data.rules.inclusions.length > 0 && <hr />}
         {data.rules.inclusions.map((vector) => (
           <div key={vector.id} className="flex items-start gap-2 py-4 md:py-2">
             <div className="flex flex-col md:flex-row md:items-center gap-2 w-full text-xl">
