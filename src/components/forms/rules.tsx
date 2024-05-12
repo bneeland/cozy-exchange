@@ -79,9 +79,9 @@ export default function RulesForm() {
 
   return (
     <div className="space-y-6">
-      <div className="divide-y md:divide-y-0 -my-4 md:-my-2">
+      <div className="divide-y -my-4 md:-my-2">
         {data.rules.exclusions.map((vector) => (
-          <div key={vector.id} className="flex items-start gap-2 py-4 md:py-2">
+          <div key={vector.id} className="flex items-center gap-2 py-4">
             <div className="flex flex-col md:flex-row md:items-center gap-2 w-full text-xl">
               {vector.from.name} must not give to {vector.to.name}
             </div>

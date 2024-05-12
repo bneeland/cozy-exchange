@@ -78,10 +78,22 @@ export default function PeopleForm() {
 
   return (
     <div className="space-y-6">
-      <div className="divide-y md:divide-y-0 -my-4 md:-my-2">
+      <div className="divide-y -my-4 md:-my-2">
+        {/*
+        <div key={vector.id} className="flex items-start gap-2 py-4 md:py-2">
+          <div className="flex flex-col md:flex-row md:items-center gap-2 w-full text-xl">
+            {vector.from.name} must not give to {vector.to.name}
+          </div>
+          <Button
+            icon={<TrashIcon className="w-4 h-4" />}
+            size="sm"
+            onClick={() => handleDeleteRule(vector, 'exclusions')}
+          />
+        </div>
+        */}
         {data.people.map((person: Person) => (
-          <div key={person.id} className="flex items-start gap-2 py-4 md:py-2">
-            <div className="flex flex-col md:flex-row md:items-center gap-2 w-full">
+          <div key={person.id} className="flex items-center gap-2 py-4 md:py-2">
+            <div className="flex flex-col md:flex-row md:items-center gap-2 w-full text-xl">
               <TextInput
                 id={`${person.id}_name`}
                 placeholder="Edit name…"
