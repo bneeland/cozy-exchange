@@ -7,6 +7,7 @@ export default function Select({
   value,
   onChange,
   label,
+  required = true,
 }: {
   id: string
   name: string
@@ -17,6 +18,7 @@ export default function Select({
   value: string
   onChange: ChangeEventHandler<HTMLSelectElement>
   label?: string
+  required?: boolean
 }) {
   return (
     <select
@@ -29,6 +31,7 @@ export default function Select({
         ${value === 'label' ? 'text-slate-500' : ''}
       `}
       defaultValue="label"
+      required={required}
     >
       {label && (
         <option value="label" disabled>
