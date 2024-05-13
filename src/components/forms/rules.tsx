@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import Button from '../ui/button'
 import { Data, Rules, Vector } from '@/types'
@@ -25,6 +25,8 @@ const initialNewRule = () =>
 const initialNewType = 'exclusions'
 
 export default function RulesForm() {
+  const fromSelectRef = useRef<HTMLSelectElement>(null)
+
   const { data, setData } = useData()
 
   const [newRule, setNewRule] = useState(initialNewRule)
@@ -51,6 +53,7 @@ export default function RulesForm() {
       save(newData)
       setNewRule(initialNewRule)
       setNewType(initialNewType)
+      fromSelectRef.current?.focus()
     }
   }
 
@@ -74,6 +77,7 @@ export default function RulesForm() {
       }
       setData(newData)
       save(newData)
+      fromSelectRef.current?.focus()
     }
   }
 
@@ -110,6 +114,7 @@ export default function RulesForm() {
           <Fieldset legend="Add a rule">
             <div className="flex flex-col lg:flex-row gap-4">
               <Select
+                customRef={fromSelectRef}
                 id="from"
                 name="from"
                 label="Select person"

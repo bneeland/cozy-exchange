@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextInput from '../ui/textInput'
 import Button from '../ui/button'
@@ -18,6 +18,8 @@ const initialNewPerson = () => ({
 })
 
 export default function PeopleForm() {
+  const nameInputRef = useRef<HTMLInputElement>(null)
+
   const { data, setData } = useData()
 
   const [newPerson, setNewPerson] = useState(initialNewPerson)
@@ -28,6 +30,7 @@ export default function PeopleForm() {
     setData(newData)
     save(newData)
     setNewPerson(initialNewPerson)
+    nameInputRef.current?.focus()
   }
 
   function handleDeletePerson(person: Person) {
@@ -49,6 +52,7 @@ export default function PeopleForm() {
       setData(newData)
       save(newData)
     }
+    nameInputRef.current?.focus()
   }
 
   function getPersonFromData(id: string) {
@@ -114,6 +118,7 @@ export default function PeopleForm() {
         <form onSubmit={handleSaveNewPerson}>
           <Fieldset legend="Add a person">
             <TextInput
+              customRef={nameInputRef}
               id="newPersonName"
               label="Name"
               placeholder="John Doe"

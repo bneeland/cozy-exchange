@@ -2,7 +2,13 @@
 
 import { DataContext } from '@/contexts/data'
 import { save } from '@/helpers'
-import { ChangeEventHandler, useContext, KeyboardEvent } from 'react'
+import {
+  ChangeEventHandler,
+  useContext,
+  KeyboardEvent,
+  useRef,
+  RefObject,
+} from 'react'
 
 export default function TextInput({
   id,
@@ -14,6 +20,7 @@ export default function TextInput({
   type = 'text',
   value,
   onChange,
+  customRef,
 }: {
   id: string
   label?: string
@@ -24,6 +31,7 @@ export default function TextInput({
   type?: 'text' | 'email'
   value: string
   onChange: ChangeEventHandler
+  customRef?: RefObject<HTMLInputElement>
 }) {
   const { data } = useContext(DataContext)
 
@@ -46,6 +54,7 @@ export default function TextInput({
         </label>
       )}
       <input
+        ref={customRef}
         id={id}
         type={type}
         className="text-xl w-full bg-transparent py-2 rounded-2xl outline-none outline-offset-2 focus:outline-4 focus:outline-blue-400/40"
