@@ -2,8 +2,7 @@
 
 import { DataContext } from '@/contexts/data'
 import { save } from '@/helpers'
-import { Data } from '@/types'
-import { ChangeEventHandler, useContext, KeyboardEvent } from 'react'
+import { ChangeEventHandler, useContext } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 export default function TextArea({

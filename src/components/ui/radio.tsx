@@ -1,8 +1,4 @@
-import {
-  CheckBadgeIcon,
-  CheckCircleIcon,
-  CheckIcon,
-} from '@heroicons/react/20/solid'
+import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import { ChangeEventHandler } from 'react'
 
 export default function Radio({

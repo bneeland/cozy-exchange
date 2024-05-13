@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, RefObject } from 'react'
 
 export default function Select({
   id,
@@ -8,6 +8,7 @@ export default function Select({
   onChange,
   label,
   required = true,
+  customRef,
 }: {
   id: string
   name: string
@@ -19,9 +20,11 @@ export default function Select({
   onChange: ChangeEventHandler<HTMLSelectElement>
   label?: string
   required?: boolean
+  customRef?: RefObject<HTMLSelectElement>
 }) {
   return (
     <select
+      ref={customRef}
       name={name}
       id={id}
       value={value}
