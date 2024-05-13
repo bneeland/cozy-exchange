@@ -7,6 +7,7 @@ export default function Select({
   value,
   onChange,
   label,
+  autoFocus = false,
   required = true,
   customRef,
 }: {
@@ -19,6 +20,7 @@ export default function Select({
   value: string
   onChange: ChangeEventHandler<HTMLSelectElement>
   label?: string
+  autoFocus?: boolean
   required?: boolean
   customRef?: RefObject<HTMLSelectElement>
 }) {
@@ -27,6 +29,7 @@ export default function Select({
       ref={customRef}
       name={name}
       id={id}
+      autoFocus={autoFocus}
       value={value}
       onChange={onChange}
       className={`

@@ -133,6 +133,7 @@ export default function RulesForm() {
                     from: e.target.value,
                   }))
                 }
+                autoFocus
               />
               <Select
                 id="ruleType"
