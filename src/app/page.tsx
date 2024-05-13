@@ -10,11 +10,11 @@ export default function Home() {
         </h1>
         <div className="space-y-4 max-w-xs mx-auto text-left">
           <h2>
-            Sends secret emails so everyone knows who they&apos;re assigned to
+            Send secret emails so everyone knows who they&apos;re assigned to
           </h2>
           <h2>
-            Saves data automatically so you can close the page and come back
-            later
+            Save your data in the session and export it in a simple link to you
+            can come back later
           </h2>
         </div>
         <Button label="Start" type="link" href="/settings" full />

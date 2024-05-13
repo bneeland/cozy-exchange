@@ -8,16 +8,16 @@ export default function useData() {
   const { data, setData } = useContext(DataContext)
 
   useEffect(() => {
-    const version = localStorage.getItem('version')
+    const version = sessionStorage.getItem('version')
     if (version && version === config.VERSION) {
-      const savedDataString = localStorage.getItem('data')
+      const savedDataString = sessionStorage.getItem('data')
       const savedData = savedDataString && JSON.parse(savedDataString)
       if (savedData) {
         setData(savedData)
       }
     } else {
-      localStorage.removeItem('data')
-      localStorage.setItem('version', config.VERSION)
+      sessionStorage.removeItem('data')
+      sessionStorage.setItem('version', config.VERSION)
     }
   }, [setData])
 
