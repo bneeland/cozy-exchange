@@ -2,7 +2,6 @@
 
 import { DataContext } from '@/contexts/data'
 import { save } from '@/helpers'
-import { Data } from '@/types'
 import { ChangeEventHandler, useContext, KeyboardEvent } from 'react'
 
 export default function TextInput({
