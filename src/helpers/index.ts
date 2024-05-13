@@ -1,5 +1,5 @@
 import { Data } from '@/types'
 
 export function save(data: Data) {
-  localStorage.setItem('data', JSON.stringify(data))
+  sessionStorage.setItem('data', JSON.stringify(data))
 }
