@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import ExportData from './exportData'
 
 export default function Navigation({
   format = 'desktop',
@@ -36,7 +37,7 @@ export default function Navigation({
   }, [pathname])
 
   const Items = () => (
-    <div className="flex flex-col gap-4">
+    <div className="space-y-4">
       <Button
         icon={<Cog6ToothIcon className="w-5 h-5" />}
         label="Settings"
@@ -85,6 +86,7 @@ export default function Navigation({
         focus={false}
         full
       />
+      <ExportData />
     </div>
   )
 
