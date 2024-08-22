@@ -2,6 +2,8 @@
 
 import { config } from '@/config'
 import { DataContext } from '@/contexts/data'
+import { inflate, save } from '@/helpers'
+import { useSearchParams } from 'next/navigation'
 import { useContext, useEffect } from 'react'
 
 export default function useData() {
@@ -20,6 +22,23 @@ export default function useData() {
       sessionStorage.setItem('version', config.VERSION)
     }
   }, [setData])
+
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    async function importData(deflatedString: string) {
+      const inflatedString = await inflate(deflatedString)
+      const importedData = inflatedString && JSON.parse(inflatedString)
+      if (importedData) {
+        save(importedData)
+        setData(importedData)
+      }
+    }
+    const deflatedString = decodeURIComponent(searchParams.get('d') || '')
+    if (deflatedString) {
+      importData(deflatedString)
+    }
+  }, [searchParams])
 
   return { data, setData }
 }
