@@ -30,8 +30,8 @@ export default function useData() {
 
   useEffect(() => {
     console.log('useEffect begin')
-    console.log('searchParams')
-    console.log(searchParams)
+    console.log('searchParams.get("data")')
+    console.log(searchParams.get('data'))
     async function importData(deflatedString: string) {
       const inflatedString = await inflate(deflatedString)
       const importedData = inflatedString && JSON.parse(inflatedString)
