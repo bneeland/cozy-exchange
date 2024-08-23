@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Navigation from '@/components/navigation'
 import { DataProvider } from '@/contexts/data'
 import { ReactNode } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 const exo2 = Exo_2({ subsets: ['latin'] })
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="flex justify-center">cozy.exchange</div>
+          <Toaster position="bottom-center" />
         </body>
       </html>
     </DataProvider>
