@@ -3,8 +3,9 @@
 import { config } from '@/config'
 import { DataContext } from '@/contexts/data'
 import { inflate, save } from '@/helpers'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useContext, useEffect } from 'react'
+import toast from 'react-hot-toast'
 
 export default function useData() {
   const { data, setData } = useContext(DataContext)
@@ -25,6 +26,8 @@ export default function useData() {
 
   const searchParams = useSearchParams()
 
+  const router = useRouter()
+
   useEffect(() => {
     async function importData(deflatedString: string) {
       const inflatedString = await inflate(deflatedString)
@@ -32,9 +35,11 @@ export default function useData() {
       if (importedData) {
         save(importedData)
         setData(importedData)
+        router.replace('/settings')
+        toast('Data from backup link was imported successfully')
       }
     }
-    const deflatedString = decodeURIComponent(searchParams.get('d') || '')
+    const deflatedString = decodeURIComponent(searchParams.get('data') || '')
     if (deflatedString) {
       importData(deflatedString)
     }
