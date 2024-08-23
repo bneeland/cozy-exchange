@@ -29,6 +29,9 @@ export default function useData() {
   const router = useRouter()
 
   useEffect(() => {
+    console.log('useEffect begin')
+    console.log('searchParams')
+    console.log(searchParams)
     async function importData(deflatedString: string) {
       const inflatedString = await inflate(deflatedString)
       const importedData = inflatedString && JSON.parse(inflatedString)
@@ -43,6 +46,7 @@ export default function useData() {
     if (deflatedString) {
       importData(deflatedString)
     }
+    console.log('useEffect end')
   }, [searchParams])
 
   return { data, setData }
