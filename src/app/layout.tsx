@@ -7,6 +7,7 @@ import Navigation from '@/components/navigation'
 import { DataProvider } from '@/contexts/data'
 import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
+import ImportData from '@/hooks/ImportData'
 
 const exo2 = Exo_2({ subsets: ['latin'] })
 
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </div>
           <div className="flex justify-center">cozy.exchange</div>
           <Toaster position="bottom-center" />
+          <ImportData />
         </body>
       </html>
     </DataProvider>
