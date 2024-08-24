@@ -21,17 +21,19 @@ export default function TextInput({
   value,
   onChange,
   customRef,
+  readOnly = false,
 }: {
-  id: string
+  id?: string
   label?: string
-  placeholder: string
+  placeholder?: string
   autoFocus?: boolean
   autoSave?: boolean
   required?: boolean
   type?: 'text' | 'email'
   value: string
-  onChange: ChangeEventHandler
+  onChange?: ChangeEventHandler
   customRef?: RefObject<HTMLInputElement>
+  readOnly?: boolean
 }) {
   const { data } = useContext(DataContext)
 
@@ -66,6 +68,7 @@ export default function TextInput({
         onBlur={autoSave ? handleBlur : undefined}
         onKeyDown={autoSave ? handleEnter : undefined}
         autoComplete="off"
+        readOnly={readOnly}
       />
     </div>
   )

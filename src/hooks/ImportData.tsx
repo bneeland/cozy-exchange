@@ -19,8 +19,8 @@ export default function ImportData() {
       if (importedData) {
         save(importedData)
         setData(importedData)
-        router.replace('/settings')
         toast('Data from backup link was imported successfully')
+        router.replace('/settings')
       }
     }
 
