@@ -10,7 +10,7 @@ async function exportData(data: Data) {
   await navigator.clipboard.writeText(
     `${window.location.origin}/?data=${encodeURIComponent(deflatedData)}`,
   )
-  toast('A link with your data was copied')
+  toast('Copied a link with your data to clipboard')
 }
 
 export default function ExportData() {
