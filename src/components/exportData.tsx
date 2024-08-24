@@ -30,7 +30,7 @@ export default function ExportData() {
 
   async function copyDataLink(dataLink: string) {
     await navigator.clipboard.writeText(dataLink)
-    toast('Copied a link with your data to clipboard')
+    toast('Copied to clipboard')
   }
 
   return (
