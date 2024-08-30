@@ -35,7 +35,7 @@ export default function ExportData() {
 
   return (
     <>
-      <ModalDialog header="Export Your Data" label="Export Data…">
+      <ModalDialog header="Save Your Data" label="Save Data">
         <p>Copy and paste this link somewhere safe to load your data later.</p>
         <div className="flex items-center gap-4">
           <TextInput value={dataLink} readOnly />

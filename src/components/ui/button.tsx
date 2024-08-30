@@ -15,7 +15,7 @@ export default function Button({
   focus = true,
 }: {
   icon?: ReactNode
-  label?: string
+  label?: ReactNode
   onClick?: any
   color?: 'default' | 'lit'
   size?: 'sm' | 'md'
