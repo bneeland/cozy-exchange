@@ -22,7 +22,7 @@ export default function SettingsForm() {
               exchange: { ...data.exchange, name: e.target.value },
             })
           }
-          autoFocus
+          autoFocus={!data.exchange.name}
           autoSave
         />
       </Fieldset>
@@ -44,6 +44,7 @@ export default function SettingsForm() {
               },
             })
           }
+          autoFocus={!!data.exchange.name && !data.exchange.contact.name}
           autoSave
         />
         <TextInput
@@ -63,6 +64,11 @@ export default function SettingsForm() {
                 },
               },
             })
+          }
+          autoFocus={
+            !!data.exchange.name &&
+            !!data.exchange.contact.name &&
+            !data.exchange.contact.email
           }
           autoSave
         />

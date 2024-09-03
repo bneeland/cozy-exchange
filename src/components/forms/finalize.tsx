@@ -122,7 +122,7 @@ export default function FinalizeForm() {
                 exchange: { ...data.exchange, message: e.target.value },
               })
             }
-            autoFocus
+            autoFocus={!data.exchange.message}
             autoSave
           />
         </Fieldset>
