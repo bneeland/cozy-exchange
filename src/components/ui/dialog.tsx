@@ -19,10 +19,7 @@ export default function Dialog({
       switch (fullScreen) {
         case true:
           return (
-            <div
-              className="z-50 absolute inset-0 mt-0 bg-white flex justify-center items-center"
-              onClick={() => onClose && onClose()}
-            >
+            <div className="z-50 absolute inset-0 mt-0 bg-white flex justify-center items-center">
               <div className="space-y-4">
                 <div>{header}</div>
                 {children}
