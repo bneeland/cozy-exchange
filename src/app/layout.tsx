@@ -8,8 +8,7 @@ import { DataProvider } from '@/contexts/data'
 import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 import ImportData from '@/hooks/ImportData'
-import ModalDialog from '@/components/ui/modalDialog'
-import { Bars3Icon } from '@heroicons/react/20/solid'
+import MobileNavigation from '@/components/mobileNavigation'
 
 const exo2 = Exo_2({ subsets: ['latin'] })
 
@@ -28,12 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="flex gap-4">
             <div className="flex-1 flex justify-start items-center">
               <div className="block sm:hidden">
-                <ModalDialog
-                  label={<Bars3Icon className="w-4 h-4" />}
-                  header="Menu"
-                >
-                  <Navigation />
-                </ModalDialog>
+                <MobileNavigation />
               </div>
             </div>
             <div className="flex justify-center items-center">
@@ -52,7 +46,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="flex justify-center">cozy.exchange</div>
-          <Toaster position="bottom-center" />
+          <Toaster position="bottom-right" />
           <ImportData />
         </body>
       </html>
