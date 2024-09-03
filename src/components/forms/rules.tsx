@@ -4,16 +4,15 @@ import { FormEvent, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import Button from '../ui/button'
 import { Data, Rules, Vector } from '@/types'
-import { v4 as uuid } from 'uuid'
 import { save } from '@/helpers'
-import { TrashIcon } from '@heroicons/react/20/solid'
+import { TrashIcon } from '@heroicons/react/16/solid'
 import StickyBox from '../stickyBox'
 import Select from '../ui/select'
 import useData from '@/hooks/useData'
 
 const initialNewRule = () =>
   ({
-    id: uuid(),
+    id: crypto.randomUUID(),
     from: 'label',
     to: 'label',
   }) as {

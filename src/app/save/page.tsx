@@ -6,7 +6,7 @@ import TextInput from '@/components/ui/textInput'
 import { deflate } from '@/helpers'
 import useData from '@/hooks/useData'
 import { Data } from '@/types'
-import { Square2StackIcon } from '@heroicons/react/20/solid'
+import { Square2StackIcon } from '@heroicons/react/16/solid'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 

@@ -5,14 +5,13 @@ import Fieldset from '../fieldset'
 import TextInput from '../ui/textInput'
 import Button from '../ui/button'
 import { Data, Person } from '@/types'
-import { v4 as uuid } from 'uuid'
 import { save } from '@/helpers'
-import { TrashIcon } from '@heroicons/react/20/solid'
+import { TrashIcon } from '@heroicons/react/16/solid'
 import StickyBox from '../stickyBox'
 import useData from '@/hooks/useData'
 
 const initialNewPerson = () => ({
-  id: uuid(),
+  id: crypto.randomUUID(),
   name: '',
   email: '',
 })
