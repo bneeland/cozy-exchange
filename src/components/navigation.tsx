@@ -12,16 +12,11 @@ import {
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 
-export default function Navigation() {
+export default function Navigation({ onSelect }: { onSelect?: () => void }) {
   const pathname = usePathname()
   const router = useRouter()
 
-  const [isOpen, setIsOpen] = useState(false)
   const [selectedPathname, setSelectedPathname] = useState<string | null>(null)
-
-  function toggle() {
-    setIsOpen((currentValue) => !currentValue)
-  }
 
   function isSelected(href: string) {
     return selectedPathname === href || pathname === href
@@ -40,7 +35,7 @@ export default function Navigation() {
           onClick={() => {
             setSelectedPathname('/settings')
             router.push('/settings')
-            toggle()
+            onSelect && onSelect()
           }}
           selected={isSelected('/settings')}
           focus={false}
@@ -52,7 +47,7 @@ export default function Navigation() {
           onClick={async () => {
             setSelectedPathname('/people')
             router.push('/people')
-            toggle()
+            onSelect && onSelect()
           }}
           selected={isSelected('/people')}
           focus={false}
@@ -64,7 +59,7 @@ export default function Navigation() {
           onClick={() => {
             setSelectedPathname('/rules')
             router.push('/rules')
-            toggle()
+            onSelect && onSelect()
           }}
           selected={isSelected('/rules')}
           focus={false}
@@ -76,7 +71,7 @@ export default function Navigation() {
           onClick={() => {
             setSelectedPathname('/finalize')
             router.push('/finalize')
-            toggle()
+            onSelect && onSelect()
           }}
           selected={isSelected('/finalize')}
           focus={false}
@@ -89,7 +84,7 @@ export default function Navigation() {
         onClick={() => {
           setSelectedPathname('/save')
           router.push('/save')
-          toggle()
+          onSelect && onSelect()
         }}
         selected={isSelected('/save')}
         focus={false}

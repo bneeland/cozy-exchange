@@ -31,7 +31,7 @@ export default function MobileNavigation() {
         onClose={() => setIsMobileMenuOpen(false)}
         fullScreen
       >
-        <Navigation />
+        <Navigation onSelect={() => setIsMobileMenuOpen(false)} />
       </Dialog>
     </>
   )
