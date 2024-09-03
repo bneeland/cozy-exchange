@@ -9,6 +9,7 @@ import { save } from '@/helpers'
 import { TrashIcon } from '@heroicons/react/16/solid'
 import StickyBox from '../stickyBox'
 import useData from '@/hooks/useData'
+import PlaceholderMessage from '../placeholderMessage'
 
 const initialNewPerson = () => ({
   id: crypto.randomUUID(),
@@ -82,36 +83,45 @@ export default function PeopleForm() {
   return (
     <div className="space-y-6">
       <div className="divide-y -my-4 md:-my-2">
-        {data.people.map((person: Person) => (
-          <div key={person.id} className="flex items-center gap-2 py-4 md:py-2">
-            <div className="flex flex-col md:flex-row md:items-center gap-2 w-full text-xl">
-              <TextInput
-                id={`${person.id}_name`}
-                placeholder="Edit name…"
-                value={getPersonFromData(person.id)?.name || ''}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handlePersonChange({ e, person, field: 'name' })
-                }
-                autoSave
-              />
-              <TextInput
-                id={`${person.id}_email`}
-                placeholder="Edit email…"
-                value={getPersonFromData(person.id)?.email || ''}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handlePersonChange({ e, person, field: 'email' })
-                }
-                autoSave
-                type="email"
+        {data.people.length ? (
+          data.people.map((person: Person) => (
+            <div
+              key={person.id}
+              className="flex items-center gap-2 py-4 md:py-2"
+            >
+              <div className="flex flex-col md:flex-row md:items-center gap-2 w-full text-xl">
+                <TextInput
+                  id={`${person.id}_name`}
+                  placeholder="Edit name…"
+                  value={getPersonFromData(person.id)?.name || ''}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handlePersonChange({ e, person, field: 'name' })
+                  }
+                  autoSave
+                />
+                <TextInput
+                  id={`${person.id}_email`}
+                  placeholder="Edit email…"
+                  value={getPersonFromData(person.id)?.email || ''}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handlePersonChange({ e, person, field: 'email' })
+                  }
+                  autoSave
+                  type="email"
+                />
+              </div>
+              <Button
+                icon={<TrashIcon className="w-4 h-4" />}
+                size="sm"
+                onClick={() => handleDeletePerson(person)}
               />
             </div>
-            <Button
-              icon={<TrashIcon className="w-4 h-4" />}
-              size="sm"
-              onClick={() => handleDeletePerson(person)}
-            />
-          </div>
-        ))}
+          ))
+        ) : (
+          <PlaceholderMessage>
+            No people yet. Add some, below.
+          </PlaceholderMessage>
+        )}
       </div>
       <StickyBox>
         <form onSubmit={handleSaveNewPerson}>
