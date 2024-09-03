@@ -2,16 +2,14 @@
 
 import Button from '@/components/ui/button'
 import {
-  Bars3Icon,
   BoltIcon,
   CheckCircleIcon,
   Cog6ToothIcon,
+  LinkIcon,
   UserGroupIcon,
-  XMarkIcon,
 } from '@heroicons/react/20/solid'
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import ExportData from './exportData'
 
 export default function Navigation() {
   const pathname = usePathname()
@@ -82,7 +80,18 @@ export default function Navigation() {
         focus={false}
         full
       />
-      <ExportData />
+      <Button
+        icon={<LinkIcon className="w-5 h-5" />}
+        label="Save"
+        onClick={() => {
+          setSelectedPathname('/save')
+          router.push('/save')
+          toggle()
+        }}
+        selected={isSelected('/save')}
+        focus={false}
+        full
+      />
     </div>
   )
 

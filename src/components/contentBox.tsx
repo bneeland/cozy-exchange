@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
 
-export default function ContentBoxBox({
+export default function ContentBox({
   children,
   header,
 }: {
   children: ReactNode
-  header: string
+  header: ReactNode
 }) {
   return (
     <div className="bg-white shadow-md rounded-xl max-w-2xl mx-auto">
