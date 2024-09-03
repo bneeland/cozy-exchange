@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 export default function Button({
   icon,
   label,
+  badge,
   onClick,
   color = 'default',
   size = 'md',
@@ -16,6 +17,7 @@ export default function Button({
 }: {
   icon?: ReactNode
   label?: ReactNode
+  badge?: ReactNode
   onClick?: any
   color?: 'default' | 'lit'
   size?: 'sm' | 'md'
@@ -101,6 +103,7 @@ export default function Button({
             {label}
           </div>
         )}
+        {badge && <div className="text-slate-500">{badge}</div>}
       </>
     )
   }
