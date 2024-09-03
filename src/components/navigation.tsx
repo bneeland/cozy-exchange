@@ -11,8 +11,11 @@ import {
 } from '@heroicons/react/20/solid'
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import useData from '@/hooks/useData'
 
 export default function Navigation({ onSelect }: { onSelect?: () => void }) {
+  const { data } = useData()
+
   const pathname = usePathname()
   const router = useRouter()
 
@@ -44,6 +47,7 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
         <Button
           icon={<UserGroupIcon className="w-5 h-5" />}
           label="People"
+          badge={data.people.length || null}
           onClick={async () => {
             setSelectedPathname('/people')
             router.push('/people')
@@ -56,6 +60,9 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
         <Button
           icon={<CheckCircleIcon className="w-5 h-5" />}
           label="Rules"
+          badge={
+            data.rules.exclusions.length + data.rules.inclusions.length || null
+          }
           onClick={() => {
             setSelectedPathname('/rules')
             router.push('/rules')
