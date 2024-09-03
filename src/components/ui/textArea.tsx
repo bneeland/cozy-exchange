@@ -2,7 +2,7 @@
 
 import { DataContext } from '@/contexts/data'
 import { save } from '@/helpers'
-import { ChangeEventHandler, useContext } from 'react'
+import { ChangeEventHandler, MutableRefObject, useContext } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 export default function TextArea({
@@ -12,9 +12,10 @@ export default function TextArea({
   autoFocus = false,
   autoSave = false,
   required = true,
-  type = 'text',
   value,
   onChange,
+  customRef,
+  readOnly = false,
 }: {
   id: string
   label?: string
@@ -22,9 +23,10 @@ export default function TextArea({
   autoFocus?: boolean
   autoSave?: boolean
   required?: boolean
-  type?: 'text' | 'email'
   value: string
   onChange: ChangeEventHandler
+  customRef?: MutableRefObject<HTMLTextAreaElement | null>
+  readOnly?: boolean
 }) {
   const { data } = useContext(DataContext)
 
@@ -40,6 +42,9 @@ export default function TextArea({
         </label>
       )}
       <TextareaAutosize
+        ref={(tag) => {
+          if (customRef) customRef.current = tag
+        }}
         id={id}
         className="text-xl w-full bg-transparent py-2 rounded-2xl outline-none outline-offset-2 focus:outline-4 focus:outline-blue-400/40"
         placeholder={placeholder}
@@ -49,6 +54,7 @@ export default function TextArea({
         onChange={onChange}
         onBlur={autoSave ? handleBlur : undefined}
         autoComplete="off"
+        readOnly={readOnly}
       />
     </div>
   )

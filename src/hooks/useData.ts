@@ -2,10 +2,12 @@
 
 import { config } from '@/config'
 import { DataContext } from '@/contexts/data'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 export default function useData() {
   const { data, setData } = useContext(DataContext)
+
+  const [isLoadingData, setIsLoadingData] = useState(true)
 
   useEffect(() => {
     const version = sessionStorage.getItem('version')
@@ -19,7 +21,9 @@ export default function useData() {
       sessionStorage.removeItem('data')
       sessionStorage.setItem('version', config.VERSION)
     }
+
+    setIsLoadingData(false)
   }, [setData])
 
-  return { data, setData }
+  return { isLoadingData, data, setData }
 }

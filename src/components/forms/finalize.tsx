@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
@@ -20,11 +20,19 @@ const STATUSES = {
 }
 
 export default function FinalizeForm() {
-  const { data, setData } = useData()
+  const exchangeMessageTextareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const { isLoadingData, data, setData } = useData()
 
   const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
   const [isValid, setIsValid] = useState<boolean>(false)
   const [problem, setProblem] = useState<string>('')
+
+  useEffect(() => {
+    if (!isLoadingData) {
+      if (!data.exchange.message) exchangeMessageTextareaRef.current?.focus()
+    }
+  }, [isLoadingData])
 
   useEffect(() => {
     if (new Set(data.people.map((person) => person.email)).size < 3) {
@@ -112,6 +120,7 @@ export default function FinalizeForm() {
       <ContentBox header="Finalize">
         <Fieldset legend="Info">
           <TextArea
+            customRef={exchangeMessageTextareaRef}
             id="message"
             label="Message"
             placeholder="Write an optional message, including any special guidelines or details that you'd like everyone to know."
@@ -122,8 +131,8 @@ export default function FinalizeForm() {
                 exchange: { ...data.exchange, message: e.target.value },
               })
             }
-            autoFocus={!data.exchange.message}
             autoSave
+            readOnly={isLoadingData}
           />
         </Fieldset>
         <Fieldset legend="Summary">
