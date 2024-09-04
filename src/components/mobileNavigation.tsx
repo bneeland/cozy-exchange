@@ -18,7 +18,7 @@ export default function MobileNavigation() {
       />
       <Dialog
         header={
-          <div className="flex justify-between items-baseline">
+          <div className="flex justify-between items-center">
             <div>Menu</div>
             <Button
               icon={<XMarkIcon className="w-4 h-4" />}
@@ -29,7 +29,7 @@ export default function MobileNavigation() {
         }
         open={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        fullScreen
+        fullPage
       >
         <Navigation onSelect={() => setIsMobileMenuOpen(false)} />
       </Dialog>
