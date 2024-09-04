@@ -6,20 +6,20 @@ export default function Dialog({
   header = '',
   open = false,
   onClose,
-  fullScreen = false,
+  fullPage = false,
 }: {
   children?: ReactNode
   header?: ReactNode
   open?: boolean
   onClose?: () => void
-  fullScreen?: boolean
+  fullPage?: boolean
 }) {
   switch (open) {
     case true:
-      switch (fullScreen) {
+      switch (fullPage) {
         case true:
           return (
-            <div className="z-50 absolute inset-0 mt-0 bg-white flex justify-center items-center">
+            <div className="z-50 absolute inset-0 mt-0 bg-white/80 backdrop-blur flex justify-center items-center">
               <div className="space-y-4">
                 <div>{header}</div>
                 {children}
