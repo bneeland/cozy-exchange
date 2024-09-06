@@ -26,6 +26,7 @@ export default function FinalizeForm() {
   const { isLoadingData, data, setData } = useData()
 
   const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
+  const [messages, setMessages] = useState<ReactNode[]>([])
   const [problems, setProblems] = useState<ReactNode[]>([])
   const [isLoadingVerify, setIsLoadingVerify] = useState(true)
   const [isLoadingMatch, setIsLoadingMatch] = useState(false)
@@ -37,36 +38,50 @@ export default function FinalizeForm() {
   }, [isLoadingData])
 
   useEffect(() => {
-    const _problems = []
-    if (new Set(data.people.map((person) => person.email)).size < 3)
-      _problems.push(
+    const _messages = []
+    if (data.people.length < 3) {
+      _messages.push(
         <>
-          Your exchange must have at least three different people in it.{' '}
+          Start by adding at least three people to the exchange.{' '}
           <Link href="/people">Go to People</Link>
         </>,
       )
-    if (!data.people.every((person) => !!person.name))
-      _problems.push(
-        <>
-          Every person must have a name.{' '}
-          <Link href="/people">Go to People</Link>
-        </>,
-      )
-    if (!data.people.every((person) => !!person.email))
-      _problems.push(
-        <>
-          Every person must have an email address.{' '}
-          <Link href="/people">Go to People</Link>
-        </>,
-      )
-    if (!getVectors({ people: data.people, rules: data.rules }))
-      _problems.push(
-        <>
-          A conflict was detected in your rules. Try removing some rules.{' '}
-          <Link href="/rules">Go to Rules</Link>
-        </>,
-      )
-    setProblems(_problems)
+    }
+    setMessages(_messages)
+
+    if (_messages.length <= 0) {
+      const _problems = []
+      if (new Set(data.people.map((person) => person.email)).size < 3)
+        _problems.push(
+          <>
+            Your exchange must have at least three different people, each with
+            their own email address. <Link href="/people">Go to People</Link>
+          </>,
+        )
+      if (!data.people.every((person) => !!person.name))
+        _problems.push(
+          <>
+            Every person must have a name.{' '}
+            <Link href="/people">Go to People</Link>
+          </>,
+        )
+      if (!data.people.every((person) => !!person.email))
+        _problems.push(
+          <>
+            Every person must have an email address.{' '}
+            <Link href="/people">Go to People</Link>
+          </>,
+        )
+      if (!getVectors({ people: data.people, rules: data.rules }))
+        _problems.push(
+          <>
+            A conflict was detected in your rules. Try removing some rules.{' '}
+            <Link href="/rules">Go to Rules</Link>
+          </>,
+        )
+      setProblems(_problems)
+    }
+
     setIsLoadingVerify(false)
   }, [data])
 
@@ -224,11 +239,17 @@ export default function FinalizeForm() {
           <div>
             <Loader className="w-4 h-4 mx-auto" />
           </div>
+        ) : messages.length > 0 ? (
+          messages.map((message, index) => (
+            <>
+              <p key={index}>{message}</p>
+            </>
+          ))
         ) : problems.length > 0 ? (
           <>
             <p>
-              Unfortunately, there are some issues with the data you&apos;ve
-              entered.
+              Looks like there are some issues that would need to be fixed
+              before continuing.
             </p>
             <Fieldset legend="Issues">
               <div className="divide-y">
