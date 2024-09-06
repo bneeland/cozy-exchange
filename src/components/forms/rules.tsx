@@ -194,13 +194,7 @@ export default function RulesForm() {
         </>
       ) : (
         <PlaceholderMessage>
-          No people yet. Add some on the{' '}
-          <Link
-            href="/people"
-            className="border-b border-slate-200 hover:text-slate-400 hover:border-slate-300"
-          >
-            People page
-          </Link>
+          No people yet. Add some on the <Link href="/people">People page</Link>
           .
         </PlaceholderMessage>
       )}

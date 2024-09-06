@@ -1,15 +1,15 @@
 'use client'
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
-import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { getVectors } from '@/helpers/assign'
 import { Exchange, Vector } from '@/types'
 import axios from 'axios'
 import useData from '@/hooks/useData'
 import ContentBox from '../contentBox'
+import Link from 'next/link'
 
 const STATUSES = {
   assignError:
@@ -25,8 +25,8 @@ export default function FinalizeForm() {
   const { isLoadingData, data, setData } = useData()
 
   const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
-  const [isValid, setIsValid] = useState<boolean>(false)
-  const [problem, setProblem] = useState<string>('')
+  const [problems, setProblems] = useState<ReactNode[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (!isLoadingData) {
@@ -35,22 +35,29 @@ export default function FinalizeForm() {
   }, [isLoadingData])
 
   useEffect(() => {
-    if (new Set(data.people.map((person) => person.email)).size < 3) {
-      setProblem(
-        'Your exchange must have at least three different people in it (with three different email addresses).',
+    const _problems = []
+    if (new Set(data.people.map((person) => person.email)).size < 3)
+      _problems.push(
+        <>
+          Your exchange must have at least three different people in it.{' '}
+          <Link href="/people">Go to People</Link>
+        </>,
       )
-      return
-    }
-    if (!data.people.every((person) => !!person.name)) {
-      setProblem('Every person must have a name.')
-      return
-    }
-    if (!data.people.every((person) => !!person.email)) {
-      setProblem('Every person must have an email address.')
-      return
-    }
-    setProblem('')
-    setIsValid(true)
+    if (!data.people.every((person) => !!person.name))
+      _problems.push(
+        <>
+          Every person must have a name.{' '}
+          <Link href="/people">Go to People</Link>
+        </>,
+      )
+    if (!data.people.every((person) => !!person.email))
+      _problems.push(
+        <>
+          Every person must have an email address.{' '}
+          <Link href="/people">Go to People</Link>
+        </>,
+      )
+    setProblems(_problems)
   }, [data])
 
   function None() {
@@ -67,6 +74,7 @@ export default function FinalizeForm() {
         'Emails will automatically be sent to everyone with their matches. Are you sure?',
       )
     ) {
+      setIsLoading(true)
       const vectors = getVectors({ people: data.people, rules: data.rules })
       if (vectors) {
         try {
@@ -90,6 +98,7 @@ export default function FinalizeForm() {
       } else {
         setStatus('assignError')
       }
+      setIsLoading(false)
     }
   }
 
@@ -201,16 +210,41 @@ export default function FinalizeForm() {
         </Fieldset>
       </ContentBox>
       <ContentBox header="Match and send emails">
-        <div className="text-center space-y-4">
-          <h2>{isValid ? 'Everything look good?' : problem}</h2>
+        {problems.length > 0 && (
+          <>
+            <p>There are few issues with the data you&apos;ve entered.</p>
+            <p>
+              You&apos;ll need to fix these before being able to create your
+              matches.
+            </p>
+            <Fieldset legend="Issues">
+              <div className="divide-y">
+                {problems.map((problem, index) => (
+                  <div
+                    key={index}
+                    className={
+                      problems.length === 1
+                        ? ''
+                        : index === 0
+                        ? 'pb-2'
+                        : index === problems.length - 1
+                        ? 'pt-2'
+                        : 'py-2'
+                    }
+                  >
+                    {problem}
+                  </div>
+                ))}
+              </div>
+            </Fieldset>
+          </>
+        )}
+        <div className="flex justify-center gap-4">
           <Button
             label="Match and send emails"
-            icon={<PaperAirplaneIcon className="w-5 h-5" />}
             onClick={handleFinalize}
-            disabled={
-              !isValid ||
-              (!!status && ['sendingEmails', 'assignError'].includes(status))
-            }
+            loading={isLoading}
+            disabled={isLoadingData || problems.length > 0}
           />
           {status && <div>{STATUSES[status]}</div>}
         </div>
