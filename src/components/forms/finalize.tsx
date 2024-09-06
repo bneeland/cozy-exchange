@@ -10,6 +10,7 @@ import axios from 'axios'
 import useData from '@/hooks/useData'
 import ContentBox from '../contentBox'
 import Link from 'next/link'
+import Loader from '../ui/loader'
 
 const STATUSES = {
   assignError:
@@ -26,7 +27,8 @@ export default function FinalizeForm() {
 
   const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
   const [problems, setProblems] = useState<ReactNode[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingVerify, setIsLoadingVerify] = useState(true)
+  const [isLoadingMatch, setIsLoadingMatch] = useState(false)
 
   useEffect(() => {
     if (!isLoadingData) {
@@ -57,7 +59,15 @@ export default function FinalizeForm() {
           <Link href="/people">Go to People</Link>
         </>,
       )
+    if (!getVectors({ people: data.people, rules: data.rules }))
+      _problems.push(
+        <>
+          A conflict was detected in your rules. Try removing some rules.{' '}
+          <Link href="/rules">Go to Rules</Link>
+        </>,
+      )
     setProblems(_problems)
+    setIsLoadingVerify(false)
   }, [data])
 
   function None() {
@@ -74,7 +84,7 @@ export default function FinalizeForm() {
         'Emails will automatically be sent to everyone with their matches. Are you sure?',
       )
     ) {
-      setIsLoading(true)
+      setIsLoadingMatch(true)
       const vectors = getVectors({ people: data.people, rules: data.rules })
       if (vectors) {
         try {
@@ -98,7 +108,7 @@ export default function FinalizeForm() {
       } else {
         setStatus('assignError')
       }
-      setIsLoading(false)
+      setIsLoadingMatch(false)
     }
   }
 
@@ -210,12 +220,15 @@ export default function FinalizeForm() {
         </Fieldset>
       </ContentBox>
       <ContentBox header="Match and send emails">
-        {problems.length > 0 ? (
+        {isLoadingVerify ? (
+          <div>
+            <Loader className="w-4 h-4 mx-auto" />
+          </div>
+        ) : problems.length > 0 ? (
           <>
-            <p>There are few issues with the data you&apos;ve entered.</p>
             <p>
-              You&apos;ll need to fix these before being able to create your
-              matches.
+              Unfortunately, there are some issues with the data you&apos;ve
+              entered.
             </p>
             <Fieldset legend="Issues">
               <div className="divide-y">
@@ -241,16 +254,14 @@ export default function FinalizeForm() {
         ) : (
           <>
             <p>Your inputs look good.</p>
-            <p>
-              You can generate matches and send automatic emails out anytime.
-            </p>
+            <p>Generate matches and send automatic emails out anytime.</p>
           </>
         )}
         <div className="flex justify-center gap-4">
           <Button
             label="Match and send emails…"
             onClick={handleFinalize}
-            loading={isLoading}
+            loading={isLoadingMatch}
             disabled={isLoadingData || problems.length > 0}
           />
           {status && <div>{STATUSES[status]}</div>}
