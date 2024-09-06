@@ -210,7 +210,7 @@ export default function FinalizeForm() {
         </Fieldset>
       </ContentBox>
       <ContentBox header="Match and send emails">
-        {problems.length > 0 && (
+        {problems.length > 0 ? (
           <>
             <p>There are few issues with the data you&apos;ve entered.</p>
             <p>
@@ -238,10 +238,17 @@ export default function FinalizeForm() {
               </div>
             </Fieldset>
           </>
+        ) : (
+          <>
+            <p>Your inputs look good.</p>
+            <p>
+              You can generate matches and send automatic emails out anytime.
+            </p>
+          </>
         )}
         <div className="flex justify-center gap-4">
           <Button
-            label="Match and send emails"
+            label="Match and send emails…"
             onClick={handleFinalize}
             loading={isLoading}
             disabled={isLoadingData || problems.length > 0}
