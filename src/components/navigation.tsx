@@ -31,7 +31,7 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
 
   const Items = () => (
     <div className="h-full flex flex-col justify-between gap-4">
-      <div className="space-y-4 ">
+      <div className="space-y-4">
         <Button
           icon={<Cog6ToothIcon className="w-5 h-5" />}
           label="Settings"
@@ -41,7 +41,6 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
             onSelect && onSelect()
           }}
           selected={isSelected('/settings')}
-          focus={false}
           full
         />
         <Button
@@ -54,7 +53,6 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
             onSelect && onSelect()
           }}
           selected={isSelected('/people')}
-          focus={false}
           full
         />
         <Button
@@ -69,7 +67,6 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
             onSelect && onSelect()
           }}
           selected={isSelected('/rules')}
-          focus={false}
           full
         />
         <Button
@@ -81,7 +78,6 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
             onSelect && onSelect()
           }}
           selected={isSelected('/finalize')}
-          focus={false}
           full
         />
       </div>
@@ -94,7 +90,6 @@ export default function Navigation({ onSelect }: { onSelect?: () => void }) {
           onSelect && onSelect()
         }}
         selected={isSelected('/save')}
-        focus={false}
         full
       />
     </div>
