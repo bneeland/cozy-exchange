@@ -266,7 +266,7 @@ export default function FinalizeForm() {
           <>
             <p>Your inputs look good.</p>
             <p>
-              Generate matches and send automatic emails by cliking the button,
+              Generate matches and send automatic emails by clicking the button,
               below.
             </p>
           </>
