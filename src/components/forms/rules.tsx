@@ -57,7 +57,6 @@ export default function RulesForm() {
       setNewType(initialNewType)
       fromSelectRef.current?.focus()
     }
-    toast.success('Rule created')
   }
 
   function handleDeleteRule(vector: Vector, type: 'exclusions' | 'inclusions') {
@@ -82,7 +81,6 @@ export default function RulesForm() {
       save(newData)
       fromSelectRef.current?.focus()
     }
-    toast.success('Rule deleted')
   }
 
   return (
