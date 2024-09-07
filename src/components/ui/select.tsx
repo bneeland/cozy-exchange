@@ -33,7 +33,7 @@ export default function Select({
       value={value}
       onChange={onChange}
       className={`
-        px-4 py-2 rounded-2xl bg-transparent text-xl cursor-pointer outline-none outline-offset-0 focus:outline-4 focus:outline-blue-400/40
+        px-4 py-2 rounded-2xl bg-transparent text-xl cursor-pointer outline-none outline-offset-0 focus:outline-4 focus:outline-blue-400/40 hover:outline-4 hover:outline-blue-400/10
         ${value === 'label' ? 'text-slate-500' : ''}
       `}
       required={required}
