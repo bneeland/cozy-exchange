@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react'
 export default function useData() {
   const { data, setData } = useContext(DataContext)
 
-  const [isLoadingData, setIsLoadingData] = useState(true)
+  const [isDataLoading, setIsDataLoading] = useState(true)
 
   useEffect(() => {
     const version = sessionStorage.getItem('version')
@@ -22,8 +22,8 @@ export default function useData() {
       sessionStorage.setItem('version', config.VERSION)
     }
 
-    setIsLoadingData(false)
+    setIsDataLoading(false)
   }, [setData])
 
-  return { isLoadingData, data, setData }
+  return { isDataLoading, data, setData }
 }

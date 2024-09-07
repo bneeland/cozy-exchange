@@ -4,7 +4,7 @@ import { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
-import { getVectors } from '@/helpers/assign'
+import { getVectors, getVectorsWithDelay } from '@/helpers/assign'
 import { Exchange, Vector } from '@/types'
 import axios from 'axios'
 import useData from '@/hooks/useData'
@@ -16,17 +16,18 @@ import toast from 'react-hot-toast'
 export default function FinalizeForm() {
   const exchangeMessageTextareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const { isLoadingData, data, setData } = useData()
+  const { isDataLoading, data, setData } = useData()
 
   const [messages, setMessages] = useState<ReactNode[]>([])
   const [problems, setProblems] = useState<ReactNode[]>([])
-  const [isLoadingVerify, setIsLoadingVerify] = useState(true)
+  const [isVerifyLoading, setIsVerifyLoading] = useState(true)
+  const [isMatchLoading, setIsMatchLoading] = useState(false)
 
   useEffect(() => {
-    if (!isLoadingData) {
+    if (!isDataLoading) {
       if (!data.exchange.message) exchangeMessageTextareaRef.current?.focus()
     }
-  }, [isLoadingData])
+  }, [isDataLoading])
 
   useEffect(() => {
     const _messages = []
@@ -73,7 +74,7 @@ export default function FinalizeForm() {
       setProblems(_problems)
     }
 
-    setIsLoadingVerify(false)
+    setIsVerifyLoading(false)
   }, [data])
 
   function None() {
@@ -84,13 +85,20 @@ export default function FinalizeForm() {
     return <span className="text-slate-500">Empty person</span>
   }
 
-  async function handleFinalize() {
+  async function handleMatch() {
     if (
       window.confirm(
         'Emails will automatically be sent to everyone with their matches. Are you sure?',
       )
     ) {
-      const vectors = getVectors({ people: data.people, rules: data.rules })
+      setIsMatchLoading(true)
+      let toastId
+      toastId = toast.loading('Creating matches')
+      const vectors = await getVectorsWithDelay({
+        people: data.people,
+        rules: data.rules,
+      })
+      toast.success('Matches created', { id: toastId })
       if (vectors) {
         const toastId = toast.loading('Sending emails')
         try {
@@ -116,8 +124,10 @@ export default function FinalizeForm() {
       } else {
         toast.error(
           'There was a problem randomly assigning matches. Remove some rules and try again.',
+          { id: toastId },
         )
       }
+      setIsMatchLoading(false)
     }
   }
 
@@ -160,7 +170,7 @@ export default function FinalizeForm() {
               })
             }
             autoSave
-            readOnly={isLoadingData}
+            readOnly={isDataLoading}
           />
         </Fieldset>
         <Fieldset legend="Summary">
@@ -206,7 +216,7 @@ export default function FinalizeForm() {
               </tr>
               <tr className="align-baseline">
                 <td className="pr-4">Rules</td>
-                <td className="pt-2">
+                <td className="py-2">
                   {((data.rules.exclusions.length > 0 ||
                     data.rules.inclusions.length > 0) && (
                     <>
@@ -229,7 +239,7 @@ export default function FinalizeForm() {
         </Fieldset>
       </ContentBox>
       <ContentBox header="Match and send emails">
-        {isLoadingVerify ? (
+        {isVerifyLoading ? (
           <div>
             <Loader className="w-4 h-4 mx-auto" />
           </div>
@@ -266,20 +276,23 @@ export default function FinalizeForm() {
           <>
             <p>Your inputs look good.</p>
             <p>
-              Generate matches and send automatic emails by cliking the button,
+              Generate matches and send automatic emails by clicking the button,
               below.
             </p>
           </>
         )}
-        <div className="flex justify-center gap-4">
-          <Button
-            label="Match and send emails…"
-            onClick={handleFinalize}
-            disabled={
-              isLoadingData || messages.length > 0 || problems.length > 0
-            }
-          />
-        </div>
+        <Button
+          label="Match and send emails…"
+          onClick={handleMatch}
+          disabled={
+            isDataLoading ||
+            isVerifyLoading ||
+            messages.length > 0 ||
+            problems.length > 0 ||
+            isMatchLoading
+          }
+          full
+        />
       </ContentBox>
     </div>
   )
