@@ -20,7 +20,8 @@ export default function FinalizeForm() {
 
   const [messages, setMessages] = useState<ReactNode[]>([])
   const [problems, setProblems] = useState<ReactNode[]>([])
-  const [isLoadingVerify, setIsLoadingVerify] = useState(true)
+  const [isVerifyLoading, setIsVerifyLoading] = useState(true)
+  const [isMatchLoading, setIsMatchLoading] = useState(false)
 
   useEffect(() => {
     if (!isDataLoading) {
@@ -73,7 +74,7 @@ export default function FinalizeForm() {
       setProblems(_problems)
     }
 
-    setIsLoadingVerify(false)
+    setIsVerifyLoading(false)
   }, [data])
 
   function None() {
@@ -84,12 +85,13 @@ export default function FinalizeForm() {
     return <span className="text-slate-500">Empty person</span>
   }
 
-  async function handleFinalize() {
+  async function handleMatch() {
     if (
       window.confirm(
         'Emails will automatically be sent to everyone with their matches. Are you sure?',
       )
     ) {
+      setIsMatchLoading(true)
       let toastId
       toastId = toast.loading('Creating matches')
       const vectors = await getVectorsWithDelay({
@@ -125,6 +127,7 @@ export default function FinalizeForm() {
           { id: toastId },
         )
       }
+      setIsMatchLoading(false)
     }
   }
 
@@ -213,7 +216,7 @@ export default function FinalizeForm() {
               </tr>
               <tr className="align-baseline">
                 <td className="pr-4">Rules</td>
-                <td className="pt-2">
+                <td className="py-2">
                   {((data.rules.exclusions.length > 0 ||
                     data.rules.inclusions.length > 0) && (
                     <>
@@ -236,7 +239,7 @@ export default function FinalizeForm() {
         </Fieldset>
       </ContentBox>
       <ContentBox header="Match and send emails">
-        {isLoadingVerify ? (
+        {isVerifyLoading ? (
           <div>
             <Loader className="w-4 h-4 mx-auto" />
           </div>
@@ -278,15 +281,18 @@ export default function FinalizeForm() {
             </p>
           </>
         )}
-        <div className="flex justify-center gap-4">
-          <Button
-            label="Match and send emails…"
-            onClick={handleFinalize}
-            disabled={
-              isDataLoading || messages.length > 0 || problems.length > 0
-            }
-          />
-        </div>
+        <Button
+          label="Match and send emails…"
+          onClick={handleMatch}
+          disabled={
+            isDataLoading ||
+            isVerifyLoading ||
+            messages.length > 0 ||
+            problems.length > 0 ||
+            isMatchLoading
+          }
+          full
+        />
       </ContentBox>
     </div>
   )
