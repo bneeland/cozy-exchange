@@ -6,6 +6,6 @@ export default function PlaceholderMessage({
   children: ReactNode
 }) {
   return (
-    <label className="text-center text-lg text-slate-300">{children}</label>
+    <label className="text-center text-xl text-slate-400">{children}</label>
   )
 }
