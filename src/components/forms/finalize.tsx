@@ -11,25 +11,16 @@ import useData from '@/hooks/useData'
 import ContentBox from '../contentBox'
 import Link from 'next/link'
 import Loader from '../ui/loader'
-
-const STATUSES = {
-  assignError:
-    "We weren't able to randomly assign matches in this exchange. Try removing some rules and making sure they're not too restrictive.",
-  sendingEmails: 'Sending emails…',
-  emailSuccess: "Emails have been sent! You're all done!",
-  emailError: 'There was a problem sending the emails. Try again.',
-}
+import toast from 'react-hot-toast'
 
 export default function FinalizeForm() {
   const exchangeMessageTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   const { isLoadingData, data, setData } = useData()
 
-  const [status, setStatus] = useState<keyof typeof STATUSES | null>(null)
   const [messages, setMessages] = useState<ReactNode[]>([])
   const [problems, setProblems] = useState<ReactNode[]>([])
   const [isLoadingVerify, setIsLoadingVerify] = useState(true)
-  const [isLoadingMatch, setIsLoadingMatch] = useState(false)
 
   useEffect(() => {
     if (!isLoadingData) {
@@ -99,11 +90,10 @@ export default function FinalizeForm() {
         'Emails will automatically be sent to everyone with their matches. Are you sure?',
       )
     ) {
-      setIsLoadingMatch(true)
       const vectors = getVectors({ people: data.people, rules: data.rules })
       if (vectors) {
+        const toastId = toast.loading('Sending emails')
         try {
-          setStatus('sendingEmails')
           const apiResponse = await sendEmails({
             exchange: data.exchange,
             vectors,
@@ -114,16 +104,20 @@ export default function FinalizeForm() {
               (response: { Message: string }) => response.Message === 'OK',
             )
           ) {
-            setStatus('emailSuccess')
+            toast.success('Emails sent', { id: toastId })
           }
         } catch (error) {
-          setStatus('emailError')
+          toast.success(
+            'There was a problem sending emails—Please try again later',
+            { id: toastId },
+          )
           console.error(error)
         }
       } else {
-        setStatus('assignError')
+        toast.error(
+          'There was a problem randomly assigning matches. Remove some rules and try again.',
+        )
       }
-      setIsLoadingMatch(false)
     }
   }
 
@@ -240,11 +234,7 @@ export default function FinalizeForm() {
             <Loader className="w-4 h-4 mx-auto" />
           </div>
         ) : messages.length > 0 ? (
-          messages.map((message, index) => (
-            <>
-              <p key={index}>{message}</p>
-            </>
-          ))
+          messages.map((message, index) => <p key={index}>{message}</p>)
         ) : problems.length > 0 ? (
           <>
             <p>
@@ -275,17 +265,20 @@ export default function FinalizeForm() {
         ) : (
           <>
             <p>Your inputs look good.</p>
-            <p>Generate matches and send automatic emails out anytime.</p>
+            <p>
+              Generate matches and send automatic emails by cliking the button,
+              below.
+            </p>
           </>
         )}
         <div className="flex justify-center gap-4">
           <Button
             label="Match and send emails…"
             onClick={handleFinalize}
-            loading={isLoadingMatch}
-            disabled={isLoadingData || problems.length > 0}
+            disabled={
+              isLoadingData || messages.length > 0 || problems.length > 0
+            }
           />
-          {status && <div>{STATUSES[status]}</div>}
         </div>
       </ContentBox>
     </div>

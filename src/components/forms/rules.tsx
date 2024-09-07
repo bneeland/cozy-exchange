@@ -11,6 +11,7 @@ import Select from '../ui/select'
 import useData from '@/hooks/useData'
 import PlaceholderMessage from '../placeholderMessage'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 
 const initialNewRule = () =>
   ({
@@ -56,6 +57,7 @@ export default function RulesForm() {
       setNewType(initialNewType)
       fromSelectRef.current?.focus()
     }
+    toast.success('Rule created')
   }
 
   function handleDeleteRule(vector: Vector, type: 'exclusions' | 'inclusions') {
@@ -80,6 +82,7 @@ export default function RulesForm() {
       save(newData)
       fromSelectRef.current?.focus()
     }
+    toast.success('Rule deleted')
   }
 
   return (
