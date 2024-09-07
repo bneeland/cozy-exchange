@@ -167,6 +167,7 @@ export function getVectors({
 }) {
   let attemptNumber = 1
   let vectors: Vector[] | undefined
+
   while (attemptNumber <= config.MAX_ATTEMPTS) {
     vectors = generateVectors({ people, rules })
     const areVectorsValid = validateVectors({ people, rules, vectors })
@@ -176,4 +177,18 @@ export function getVectors({
     attemptNumber++
   }
   return
+}
+
+export async function getVectorsWithDelay({
+  people,
+  rules,
+  delay = 2000,
+}: {
+  people: Person[]
+  rules: Rules
+  delay?: number
+}) {
+  await new Promise((_) => setTimeout(_, delay))
+
+  return getVectors({ people, rules })
 }

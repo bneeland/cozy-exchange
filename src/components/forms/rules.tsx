@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import Button from '../ui/button'
 import { Data, Rules, Vector } from '@/types'
@@ -11,9 +11,10 @@ import Select from '../ui/select'
 import useData from '@/hooks/useData'
 import PlaceholderMessage from '../placeholderMessage'
 import Link from 'next/link'
+import { getVectors } from '@/helpers/assign'
 import toast from 'react-hot-toast'
 
-const initialNewRule = () =>
+const initialNewRulePeople = () =>
   ({
     id: crypto.randomUUID(),
     from: 'label',
@@ -24,37 +25,38 @@ const initialNewRule = () =>
     to: string
   }
 
-const initialNewType = 'exclusions'
+const initialNewRuleType = 'exclusions'
 
 export default function RulesForm() {
   const fromSelectRef = useRef<HTMLSelectElement>(null)
 
   const { data, setData } = useData()
 
-  const [newRule, setNewRule] = useState(initialNewRule)
-  const [newType, setNewType] = useState<'exclusions' | 'inclusions'>(
-    initialNewType,
+  const [newRulePeople, setNewRulePeople] = useState(initialNewRulePeople)
+  const [newRuleType, setNewRuleType] = useState<'exclusions' | 'inclusions'>(
+    initialNewRuleType,
   )
 
   function handleSaveNewRule(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const [from, to] = [
-      data.people.find((person) => person.id === newRule.from),
-      data.people.find((person) => person.id === newRule.to),
+      data.people.find((person) => person.id === newRulePeople.from),
+      data.people.find((person) => person.id === newRulePeople.to),
     ]
     let vector
     if (from && to) {
-      vector = { id: newRule.id, from, to }
-    }
-    if (vector) {
+      vector = { id: newRulePeople.id, from, to }
       const newData: Data = {
         ...data,
-        rules: { ...data.rules, [newType]: [...data.rules[newType], vector] },
+        rules: {
+          ...data.rules,
+          [newRuleType]: [...data.rules[newRuleType], vector],
+        },
       }
       setData(newData)
       save(newData)
-      setNewRule(initialNewRule)
-      setNewType(initialNewType)
+      setNewRulePeople(initialNewRulePeople)
+      setNewRuleType(initialNewRuleType)
       fromSelectRef.current?.focus()
     }
   }
@@ -83,6 +85,12 @@ export default function RulesForm() {
     }
   }
 
+  useEffect(() => {
+    if (!getVectors({ people: data.people, rules: data.rules })) {
+      toast.error('There is a conflict in your rules')
+    }
+  }, [data])
+
   return (
     <div className="space-y-6">
       {data.people.length ? (
@@ -90,7 +98,7 @@ export default function RulesForm() {
           <div className="divide-y -my-4 md:-my-2">
             {data.rules.exclusions.length || data.rules.inclusions.length ? (
               <>
-                {data.rules.exclusions.map((vector) => (
+                {data.rules.exclusions.map((vector, index) => (
                   <div key={vector.id} className="flex items-center gap-2 py-4">
                     <div className="flex flex-col md:flex-row md:items-center gap-2 w-full text-xl">
                       {vector.from.name} must not give to {vector.to.name}
@@ -135,16 +143,16 @@ export default function RulesForm() {
                     label="Select person"
                     options={[
                       ...data.people
-                        .filter((person) => person.id !== newRule.to)
+                        .filter((person) => person.id !== newRulePeople.to)
                         .map((person) => ({
                           value: person.id,
                           label: person.name,
                         })),
                     ]}
-                    value={newRule.from}
+                    value={newRulePeople.from}
                     onChange={(e) =>
-                      setNewRule((_newRule) => ({
-                        ..._newRule,
+                      setNewRulePeople((_newRulePeople) => ({
+                        ..._newRulePeople,
                         from: e.target.value,
                       }))
                     }
@@ -156,10 +164,22 @@ export default function RulesForm() {
                     options={[
                       { value: 'exclusions', label: 'must not give to' },
                       { value: 'inclusions', label: 'must give to' },
-                    ]}
-                    value={newType}
+                    ]
+                      // If `from` person is already a `from` person in existing inclusion rule, can't select inclusion
+                      .filter((ruleType) => {
+                        if (
+                          data.rules.inclusions
+                            .map((vector) => vector.from.id)
+                            .includes(newRulePeople.from)
+                        )
+                          return ruleType.value !== 'inclusions'
+                        else return true
+                      })}
+                    value={newRuleType}
                     onChange={(e) =>
-                      setNewType(e.target.value as 'exclusions' | 'inclusions')
+                      setNewRuleType(
+                        e.target.value as 'exclusions' | 'inclusions',
+                      )
                     }
                   />
                   <Select
@@ -168,16 +188,52 @@ export default function RulesForm() {
                     label="Select person"
                     options={[
                       ...data.people
-                        .filter((person) => person.id !== newRule.from)
+                        // `to` person can't be same as `from` person
+                        .filter((person) => person.id !== newRulePeople.from)
+                        // If inclusion rule, `to` person can't already be a `to` person of existing inclusion rule
+                        .filter((person) => {
+                          if (newRuleType === 'inclusions')
+                            return !data.rules.inclusions
+                              .map((vector) => vector.to.id)
+                              .includes(person.id)
+                          else return true
+                        })
+                        // `to` and `from` people can't be same `to` and `from` of existing rule
+                        .filter(
+                          (person) =>
+                            ![
+                              ...data.rules.exclusions
+                                .filter(
+                                  (vector) =>
+                                    vector.from.id === newRulePeople.from,
+                                )
+                                .map((vector) => vector.to.id),
+                              ...data.rules.inclusions
+                                .filter(
+                                  (vector) =>
+                                    vector.from.id === newRulePeople.from,
+                                )
+                                .map((vector) => vector.to.id),
+                            ].includes(person.id),
+                        )
+                        // If `exclusion`, can't select last remaining option in `from` people
+                        .filter((person, index, array) => {
+                          if (
+                            newRuleType === 'exclusions' &&
+                            array.length === 1
+                          )
+                            return false
+                          else return true
+                        })
                         .map((person) => ({
                           value: person.id,
                           label: person.name,
                         })),
                     ]}
-                    value={newRule.to}
+                    value={newRulePeople.to}
                     onChange={(e) =>
-                      setNewRule((_newRule) => ({
-                        ..._newRule,
+                      setNewRulePeople((_newRulePeople) => ({
+                        ..._newRulePeople,
                         to: e.target.value,
                       }))
                     }
@@ -187,7 +243,10 @@ export default function RulesForm() {
                   type="submit"
                   label="Save"
                   full
-                  disabled={newRule.from === 'label' || newRule.to === 'label'}
+                  disabled={
+                    newRulePeople.from === 'label' ||
+                    newRulePeople.to === 'label'
+                  }
                 />
               </Fieldset>
             </form>

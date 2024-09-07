@@ -4,7 +4,7 @@ import { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react'
 import Fieldset from '../fieldset'
 import TextArea from '../ui/textArea'
 import Button from '../ui/button'
-import { getVectors } from '@/helpers/assign'
+import { getVectors, getVectorsWithDelay } from '@/helpers/assign'
 import { Exchange, Vector } from '@/types'
 import axios from 'axios'
 import useData from '@/hooks/useData'
@@ -16,17 +16,17 @@ import toast from 'react-hot-toast'
 export default function FinalizeForm() {
   const exchangeMessageTextareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const { isLoadingData, data, setData } = useData()
+  const { isDataLoading, data, setData } = useData()
 
   const [messages, setMessages] = useState<ReactNode[]>([])
   const [problems, setProblems] = useState<ReactNode[]>([])
   const [isLoadingVerify, setIsLoadingVerify] = useState(true)
 
   useEffect(() => {
-    if (!isLoadingData) {
+    if (!isDataLoading) {
       if (!data.exchange.message) exchangeMessageTextareaRef.current?.focus()
     }
-  }, [isLoadingData])
+  }, [isDataLoading])
 
   useEffect(() => {
     const _messages = []
@@ -90,7 +90,13 @@ export default function FinalizeForm() {
         'Emails will automatically be sent to everyone with their matches. Are you sure?',
       )
     ) {
-      const vectors = getVectors({ people: data.people, rules: data.rules })
+      let toastId
+      toastId = toast.loading('Creating matches')
+      const vectors = await getVectorsWithDelay({
+        people: data.people,
+        rules: data.rules,
+      })
+      toast.success('Matches created', { id: toastId })
       if (vectors) {
         const toastId = toast.loading('Sending emails')
         try {
@@ -116,6 +122,7 @@ export default function FinalizeForm() {
       } else {
         toast.error(
           'There was a problem randomly assigning matches. Remove some rules and try again.',
+          { id: toastId },
         )
       }
     }
@@ -160,7 +167,7 @@ export default function FinalizeForm() {
               })
             }
             autoSave
-            readOnly={isLoadingData}
+            readOnly={isDataLoading}
           />
         </Fieldset>
         <Fieldset legend="Summary">
@@ -276,7 +283,7 @@ export default function FinalizeForm() {
             label="Match and send emails…"
             onClick={handleFinalize}
             disabled={
-              isLoadingData || messages.length > 0 || problems.length > 0
+              isDataLoading || messages.length > 0 || problems.length > 0
             }
           />
         </div>

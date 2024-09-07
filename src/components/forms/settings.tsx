@@ -10,17 +10,17 @@ export default function SettingsForm() {
   const exchangeContactNameInputRef = useRef<HTMLInputElement>(null)
   const exchangeContactEmailInputRef = useRef<HTMLInputElement>(null)
 
-  const { isLoadingData, data, setData } = useData()
+  const { isDataLoading, data, setData } = useData()
 
   useEffect(() => {
-    if (!isLoadingData) {
+    if (!isDataLoading) {
       if (!data.exchange.name) exchangeNameInputRef.current?.focus()
       else if (!data.exchange.contact.name)
         exchangeContactNameInputRef.current?.focus()
       else if (!data.exchange.contact.email)
         exchangeContactEmailInputRef.current?.focus()
     }
-  }, [isLoadingData])
+  }, [isDataLoading])
 
   return (
     <>
@@ -38,7 +38,7 @@ export default function SettingsForm() {
             })
           }
           autoSave
-          readOnly={isLoadingData}
+          readOnly={isDataLoading}
         />
       </Fieldset>
       <Fieldset legend="Group contact">
@@ -61,7 +61,7 @@ export default function SettingsForm() {
             })
           }
           autoSave
-          readOnly={isLoadingData}
+          readOnly={isDataLoading}
         />
         <TextInput
           customRef={exchangeContactEmailInputRef}
@@ -83,7 +83,7 @@ export default function SettingsForm() {
             })
           }
           autoSave
-          readOnly={isLoadingData}
+          readOnly={isDataLoading}
         />
       </Fieldset>
     </>

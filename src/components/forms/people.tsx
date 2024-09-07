@@ -10,7 +10,6 @@ import { TrashIcon } from '@heroicons/react/16/solid'
 import StickyBox from '../stickyBox'
 import useData from '@/hooks/useData'
 import PlaceholderMessage from '../placeholderMessage'
-import toast from 'react-hot-toast'
 
 const initialNewPerson = () => ({
   id: crypto.randomUUID(),
