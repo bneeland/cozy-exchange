@@ -46,7 +46,7 @@ export default function TextArea({
           if (customRef) customRef.current = tag
         }}
         id={id}
-        className="text-xl w-full bg-transparent py-2 rounded-2xl outline-none outline-offset-2 focus:outline-4 focus:outline-blue-400/40 hover:outline-4 hover:outline-blue-400/10"
+        className="text-xl w-full bg-transparent py-2 rounded-2xl outline-none -outline-offset-2 hover:outline-2 hover:outline-blue-400/10 focus:outline-2 focus:outline-blue-400/40"
         placeholder={placeholder}
         autoFocus={autoFocus}
         required={required}

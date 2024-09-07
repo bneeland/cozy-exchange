@@ -135,7 +135,7 @@ export default function RulesForm() {
           <StickyBox>
             <form onSubmit={handleSaveNewRule}>
               <Fieldset legend="Add a rule">
-                <div className="flex flex-col lg:flex-row gap-4">
+                <div className="flex flex-col lg:flex-row gap-1 overflow-x-auto">
                   <Select
                     customRef={fromSelectRef}
                     id="from"

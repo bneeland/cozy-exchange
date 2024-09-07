@@ -216,7 +216,7 @@ export default function FinalizeForm() {
               </tr>
               <tr className="align-baseline">
                 <td className="pr-4">Rules</td>
-                <td className="py-2">
+                <td className="pt-2">
                   {((data.rules.exclusions.length > 0 ||
                     data.rules.inclusions.length > 0) && (
                     <>

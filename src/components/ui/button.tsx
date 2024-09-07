@@ -14,7 +14,6 @@ export default function Button({
   disabled = false,
   loading = false,
   selected = false,
-  focus = true,
 }: {
   icon?: ReactNode
   label?: ReactNode
@@ -27,10 +26,9 @@ export default function Button({
   disabled?: boolean
   loading?: boolean
   selected?: boolean
-  focus?: boolean
 }) {
   const classNames = `
-    active:border-b-0 active:border-t-4 disabled:active:border-b-4 disabled:active:border-t-0 flex items-center gap-3 outline-none bg-slate-200 hover:bg-slate-300 disabled:bg-slate-200 disabled:hover:bg-slate-200 border-slate-300 hover:border-slate-400 disabled:border-slate-200 disabled:hover:border-slate-200
+    active:border-b-0 active:border-t-4 disabled:active:border-b-4 disabled:active:border-t-0 flex items-center gap-3 bg-slate-200 hover:bg-slate-300 disabled:bg-slate-200 disabled:hover:bg-slate-200 border-slate-300 hover:border-slate-400 disabled:border-slate-200 disabled:hover:border-slate-200 outline-none -outline-offset-2 focus:outline-2 focus:outline-blue-400/40
     ${(icon && !label) || (label && !icon) ? 'flex justify-center' : ''}
     ${
       selected
@@ -42,9 +40,6 @@ export default function Button({
       (size === 'md' && 'px-4 py-2 rounded-2xl')
     }
     ${full ? 'w-full' : ''}
-    ${
-      !focus ? '' : 'outline-offset-0 focus:outline-4 focus:outline-blue-400/40'
-    }
   `
 
   function ContentBox() {
