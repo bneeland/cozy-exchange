@@ -78,8 +78,8 @@ export async function POST(request: NextRequest) {
       vectors.map((vector) => getMessage({ exchange, vector })),
     )
     return NextResponse.json({ emailResponse })
-  } catch (err) {
-    console.error(err)
-    return NextResponse.json({ err })
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error })
   }
 }

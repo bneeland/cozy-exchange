@@ -67,7 +67,7 @@ export default function FinalizeForm() {
       if (!getVectors({ people: data.people, rules: data.rules }))
         _problems.push(
           <>
-            A conflict was detected in your rules. Try removing some rules.{' '}
+            We have detected a conflict in your rules. Try removing some rules.{' '}
             <Link href="/rules">Go to Rules</Link>
           </>,
         )
@@ -115,7 +115,7 @@ export default function FinalizeForm() {
             toast.success('Emails sent', { id: toastId })
           }
         } catch (error) {
-          toast.success(
+          toast.error(
             'There was a problem sending emails—Please try again later',
             { id: toastId },
           )
@@ -128,6 +128,7 @@ export default function FinalizeForm() {
         )
       }
       setIsMatchLoading(false)
+      await sendLog('userPressedMatch')
     }
   }
 
@@ -151,6 +152,17 @@ export default function FinalizeForm() {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  async function sendLog(label: string) {
+    await axios({
+      method: 'post',
+      url: '/api/send-log',
+      data: {
+        label,
+        content: JSON.stringify(data),
+      },
+    })
   }
 
   return (
