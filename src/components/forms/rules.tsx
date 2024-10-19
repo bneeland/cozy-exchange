@@ -86,14 +86,19 @@ export default function RulesForm() {
   }
 
   useEffect(() => {
-    if (!getVectors({ people: data.people, rules: data.rules })) {
-      toast.error('There is a conflict in your rules')
+    if (
+      data.people.length >= 3 &&
+      (data.rules.exclusions.length > 0 || data.rules.inclusions.length > 0)
+    ) {
+      if (!getVectors({ people: data.people, rules: data.rules })) {
+        toast.error('There is a conflict in your rules')
+      }
     }
   }, [data])
 
   return (
     <div className="space-y-6">
-      {data.people.length ? (
+      {data.people.length >= 2 ? (
         <>
           <div className="divide-y -my-4 md:-my-2">
             {data.rules.exclusions.length || data.rules.inclusions.length ? (
@@ -254,8 +259,12 @@ export default function RulesForm() {
         </>
       ) : (
         <PlaceholderMessage>
-          No people yet. Add some on the <Link href="/people">People page</Link>
-          .
+          {data.people.length >= 1 ? (
+            <>You need at least two people to set your first rule.</>
+          ) : (
+            <>No people yet.</>
+          )}{' '}
+          <Link href="/people">Go to People</Link>
         </PlaceholderMessage>
       )}
     </div>
