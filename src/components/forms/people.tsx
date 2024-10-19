@@ -119,7 +119,7 @@ export default function PeopleForm() {
           ))
         ) : (
           <PlaceholderMessage>
-            No people yet. Add some, below.
+            No people yet. Add at least three, below.
           </PlaceholderMessage>
         )}
       </div>
@@ -151,9 +151,15 @@ export default function PeopleForm() {
             />
             <Button
               type="submit"
-              label="Save"
+              label="Add"
               full
-              disabled={!newPerson.name || !newPerson.email}
+              disabled={
+                !newPerson.name ||
+                !newPerson.email ||
+                data.people
+                  .map((person) => person.email)
+                  .includes(newPerson.email)
+              }
             />
           </Fieldset>
         </form>
