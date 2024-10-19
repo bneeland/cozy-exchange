@@ -32,12 +32,21 @@ export default function FinalizeForm() {
   useEffect(() => {
     const _messages = []
     if (data.people.length < 3) {
-      _messages.push(
-        <>
-          Start by adding at least three people to the exchange.{' '}
-          <Link href="/people">Go to People</Link>
-        </>,
-      )
+      if (data.people.length === 0) {
+        _messages.push(
+          <>
+            Start by adding at least three people to the exchange.{' '}
+            <Link href="/people">Go to People</Link>
+          </>,
+        )
+      } else {
+        _messages.push(
+          <>
+            You need at least three people in the exchange to finalize it.{' '}
+            <Link href="/people">Go to People</Link>
+          </>,
+        )
+      }
     }
     setMessages(_messages)
 
