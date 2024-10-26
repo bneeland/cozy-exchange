@@ -31,7 +31,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
             <div className="flex justify-center items-center">
-              <Link href="/" className="border-none">
+              <Link
+                href="/"
+                className="border-none text-slate-950 hover:text-slate-950"
+              >
                 <Logo />
               </Link>
             </div>
