@@ -41,7 +41,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <div className="hidden sm:block">
               <Navigation />
             </div>
-            <div className="flex-1 flex flex-col overflow-hidden rounded-2xl bg-slate-200 border border-t-4 border-slate-300">
+            <div className="flex-1 flex flex-col overflow-hidden rounded-2xl bg-slate-200 border border-t-4 border-slate-300 bg-[url('/backgrounds/bg1.jpg')] bg-cover bg-center">
               <div className="overflow-y-auto p-6">{children}</div>
             </div>
           </div>
