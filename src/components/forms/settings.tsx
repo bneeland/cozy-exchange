@@ -29,7 +29,7 @@ export default function SettingsForm() {
           customRef={exchangeNameInputRef}
           id="exchangeName"
           label="Exchange name"
-          placeholder="Christmas gift exchange"
+          placeholder="Family gift exchange"
           value={data.exchange.name}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setData({
