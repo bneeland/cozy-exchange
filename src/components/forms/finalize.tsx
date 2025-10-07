@@ -281,10 +281,10 @@ export default function FinalizeForm() {
                       problems.length === 1
                         ? ''
                         : index === 0
-                        ? 'pb-2'
-                        : index === problems.length - 1
-                        ? 'pt-2'
-                        : 'py-2'
+                          ? 'pb-2'
+                          : index === problems.length - 1
+                            ? 'pt-2'
+                            : 'py-2'
                     }
                   >
                     {problem}
